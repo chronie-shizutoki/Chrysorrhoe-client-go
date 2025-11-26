@@ -85,7 +85,7 @@
 }
 
 .balance-card__amount {
-  font-size: calc(var(--font-size-5xl) * 1.2);
+  font-size: 3rem;
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-md);
   letter-spacing: var(--letter-spacing-tight);
@@ -322,7 +322,7 @@
   }
   
   .balance-card__amount {
-    font-size: calc(var(--font-size-4xl) * 0.9);
+    font-size: 3rem;
     line-height: 1.2;
     margin-bottom: var(--space-sm);
     /* Improve touch target size for accessibility */
@@ -428,7 +428,7 @@
   }
   
   .balance-card__amount {
-    font-size: var(--font-size-3xl);
+    font-size: 2.5rem;
   }
   
   .action-button {

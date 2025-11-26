@@ -44,38 +44,46 @@ function walletReducer(state, action) {
 export function WalletProvider({ children }) {
   const [state, dispatch] = useReducer(walletReducer, initialState)
 
-  // Load wallet data from localStorage on app start
+  // 合并初始化逻辑，减少渲染次数
   useEffect(() => {
-    const savedWallet = localStorage.getItem('wallet')
-    const savedLanguage = languageStorage.getLanguage()
-    
-    if (savedWallet) {
-      try {
-        const wallet = JSON.parse(savedWallet)
-        dispatch({ type: 'SET_WALLET', payload: wallet })
-      } catch (error) {
-        console.error('Error loading wallet from localStorage:', error)
-        localStorage.removeItem('wallet')
+    // 初始化数据
+    const initializeApp = () => {
+      // 加载钱包数据
+      const savedWallet = localStorage.getItem('wallet')
+      if (savedWallet) {
+        try {
+          const wallet = JSON.parse(savedWallet)
+          dispatch({ type: 'SET_WALLET', payload: wallet })
+        } catch (error) {
+          localStorage.removeItem('wallet')
+        }
+      }
+      
+      // 设置语言
+      const savedLanguage = languageStorage.getLanguage()
+      const language = savedLanguage && languageStorage.isSupported(savedLanguage) 
+        ? savedLanguage 
+        : languageStorage.getBrowserLanguage()
+        
+      dispatch({ type: 'SET_LANGUAGE', payload: language })
+      
+      if (!savedLanguage) {
+        languageStorage.setLanguage(language)
       }
     }
     
-    // Set language from storage or browser preference
-    if (savedLanguage && languageStorage.isSupported(savedLanguage)) {
-      dispatch({ type: 'SET_LANGUAGE', payload: savedLanguage })
-    } else {
-      const browserLanguage = languageStorage.getBrowserLanguage()
-      dispatch({ type: 'SET_LANGUAGE', payload: browserLanguage })
-      languageStorage.setLanguage(browserLanguage)
-    }
+    initializeApp()
   }, [])
 
-  const walletService = useMemo(() => new WalletService(dispatch), [dispatch])
+  // 仅创建一次walletService实例
+  const walletService = useMemo(() => new WalletService(dispatch), [])
 
-  const value = {
+  // 记忆化context值，避免不必要的重新渲染
+  const value = useMemo(() => ({
     ...state,
-    dispatch,
-    walletService
-  }
+    walletService,
+    dispatch // 添加dispatch以支持组件中的直接状态更新
+  }), [state, walletService, dispatch])
 
   return (
     <WalletContext.Provider value={value}>
