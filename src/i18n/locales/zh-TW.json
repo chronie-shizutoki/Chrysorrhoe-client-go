@@ -150,5 +150,6 @@
 "title": "匯率",
 "rate": "1美元 = {{rate}}",
 "lastUpdated": "{{time}}"
-}
+},
+"changeToNormalMode": "切換到一般模式"
 }

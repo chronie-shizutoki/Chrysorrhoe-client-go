@@ -151,5 +151,6 @@
 "title": "Exch.",
 "rate": "1 USD = {{rate}}",
 "lastUpdated": "{{time}}"
-}
+},
+"changeToNormalMode": "Change to Normal Mode"
 }

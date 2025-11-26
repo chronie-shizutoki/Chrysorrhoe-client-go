@@ -150,5 +150,6 @@
 "title": "為替レート",
 "rate": "1米ドル = {{rate}}",
 "lastUpdated": "{{time}}"
-}
+},
+"changeToNormalMode": "通常モードに切り替え"
 }

@@ -1,0 +1,40 @@
+.ChangeType {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid #007bff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.ChangeType:hover {
+  color: #ffffff;
+  background: #007bff;
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.35);
+  transform: translateX(-50%) scale(1.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ChangeType {
+    color: #66b3ff;
+    background: rgba(30, 30, 30, 0.85);
+    border-color: #66b3ff;
+    box-shadow: 0 4px 12px rgba(102, 179, 255, 0.2);
+  }
+
+  .ChangeType:hover {
+    color: #0d1117;
+    background: #66b3ff;
+    box-shadow: 0 6px 16px rgba(102, 179, 255, 0.4);
+  }
+}
