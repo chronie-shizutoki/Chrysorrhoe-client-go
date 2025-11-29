@@ -72,123 +72,164 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/features_grid"
+    <!-- TabLayout for feature navigation -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/feature_tabs"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:minHeight="300dp"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        app:tabTextColor="@android:color/white"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/balance_card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_weight="1">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:background="@android:color/white"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp"
-            app:layout_column="0"
-            app:layout_row="0">
-
+        app:layout_constraintTop_toBottomOf="@id/balance_card">
+        
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/transfer_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transfer_button" />
+            
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/cdk_redeem_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cdk_redeem_button" />
+            
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/transaction_history_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transaction_history_button" />
+    </com.google.android.material.tabs.TabLayout>
+    
+    <!-- Feature containers -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transfer_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feature_tabs">
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+            
             <Button
                 android:id="@+id/transfer_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:minHeight="120dp"
                 android:text="@string/transfer_button"
                 android:textAllCaps="false"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:background="@android:color/white"
+                android:background="@android:color/holo_blue_dark"
+                android:visibility="visible"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 style="@style/Widget.AppCompat.Button" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:background="@android:color/white"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp"
-            app:layout_column="1"
-            app:layout_row="0">
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cdk_redeem_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feature_tabs"
+        android:visibility="gone">
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+            
             <Button
                 android:id="@+id/cdk_redeem_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:minHeight="120dp"
                 android:text="@string/cdk_redeem_button"
                 android:textAllCaps="false"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:background="@android:color/white"
+                android:background="@android:color/holo_green_dark"
+                android:visibility="visible"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 style="@style/Widget.AppCompat.Button" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:background="@android:color/white"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp"
-            app:layout_column="0"
-            app:layout_row="1">
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transaction_history_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feature_tabs"
+        android:visibility="gone">
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+            
             <Button
                 android:id="@+id/transaction_history_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:minHeight="120dp"
                 android:text="@string/transaction_history_button"
                 android:textAllCaps="false"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:background="@android:color/white"
+                android:background="@android:color/holo_purple"
+                android:visibility="visible"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 style="@style/Widget.AppCompat.Button" />
-        </androidx.cardview.widget.CardView>
-
-        <!-- 占位卡片，使布局对称 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:alpha="0.3"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:layout_column="1"
-            app:layout_row="1">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </androidx.cardview.widget.CardView>
-    </androidx.gridlayout.widget.GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <ProgressBar
         android:id="@+id/loading_indicator"
