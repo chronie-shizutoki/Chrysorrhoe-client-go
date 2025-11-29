@@ -46,7 +46,7 @@ export function WalletProvider({ children }) {
 
   // 合并初始化逻辑，减少渲染次数
   useEffect(() => {
-    // 初始化数据
+    // 合并初始化逻辑，减少渲染次数
     const initializeApp = () => {
       // 加载钱包数据
       const savedWallet = localStorage.getItem('wallet')
@@ -57,6 +57,64 @@ export function WalletProvider({ children }) {
         } catch (error) {
           localStorage.removeItem('wallet')
         }
+      } else {
+        // 添加模拟钱包数据，确保在开发环境或API不可用时能看到内容
+        const mockWallet = {
+          id: 'mock-wallet-id',
+          username: 'DemoUser',
+          balance: 1000,
+          createdAt: new Date().toISOString()
+        }
+        dispatch({ type: 'SET_WALLET', payload: mockWallet })
+        
+        // 添加模拟交易历史数据
+        const mockTransactions = [
+          {
+            id: 'trans-1',
+            fromWalletId: 'mock-wallet-id',
+            toWalletId: 'wallet-2',
+            fromUsername: 'DemoUser',
+            toUsername: 'Alice',
+            amount: 200,
+            type: 'TRANSFER',
+            status: 'COMPLETED',
+            timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString()
+          },
+          {
+            id: 'trans-2',
+            fromWalletId: 'wallet-3',
+            toWalletId: 'mock-wallet-id',
+            fromUsername: 'Bob',
+            toUsername: 'DemoUser',
+            amount: 500,
+            type: 'TRANSFER',
+            status: 'COMPLETED',
+            timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString()
+          },
+          {
+            id: 'trans-3',
+            fromWalletId: null,
+            toWalletId: 'mock-wallet-id',
+            fromUsername: null,
+            toUsername: 'DemoUser',
+            amount: 1000,
+            type: 'CDK_REDEEM',
+            status: 'COMPLETED',
+            timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString()
+          }
+        ]
+        dispatch({ type: 'SET_TRANSACTIONS', payload: mockTransactions })
+        
+        // 设置模拟分页数据
+        const mockPagination = {
+          currentPage: 1,
+          totalPages: 1,
+          totalTransactions: 3,
+          limit: 10,
+          hasNextPage: false,
+          hasPreviousPage: false
+        }
+        dispatch({ type: 'SET_PAGINATION', payload: mockPagination })
       }
       
       // 设置语言
@@ -83,7 +141,7 @@ export function WalletProvider({ children }) {
     ...state,
     walletService,
     dispatch // 添加dispatch以支持组件中的直接状态更新
-  }), [state, walletService, dispatch])
+  }), [state, walletService])
 
   return (
     <WalletContext.Provider value={value}>

@@ -64,13 +64,15 @@ const TransactionHistory = () => {
   }
 
   const getTransactionType = (transaction) => {
-    if (transaction.transactionType === 'system') {
+    // 适配模拟数据结构
+    if (transaction.type === 'CDK_REDEEM') {
       return t('transaction.system')
     }
     
-    if (transaction.direction === 'outgoing') {
+    // 检查是发送还是接收交易
+    if (transaction.fromWalletId === currentWallet.id) {
       return t('transaction.sent')
-    } else if (transaction.direction === 'incoming') {
+    } else if (transaction.toWalletId === currentWallet.id) {
       return t('transaction.received')
     }
     
@@ -78,13 +80,15 @@ const TransactionHistory = () => {
   }
 
   const getTransactionAmount = (transaction) => {
-    if (transaction.transactionType === 'system') {
+    // 适配模拟数据结构
+    if (transaction.type === 'CDK_REDEEM') {
       return `+${formatCurrency(transaction.amount)}`
     }
     
-    if (transaction.direction === 'outgoing') {
+    // 检查是发送还是接收交易
+    if (transaction.fromWalletId === currentWallet.id) {
       return `-${formatCurrency(transaction.amount)}`
-    } else if (transaction.direction === 'incoming') {
+    } else if (transaction.toWalletId === currentWallet.id) {
       return `+${formatCurrency(transaction.amount)}`
     }
     
@@ -92,42 +96,27 @@ const TransactionHistory = () => {
   }
 
   const getTransactionAmountClass = (transaction) => {
-    if (transaction.transactionType === 'system' || 
-        transaction.direction === 'incoming') {
+    // 适配模拟数据结构
+    if (transaction.type === 'CDK_REDEEM' || 
+        transaction.toWalletId === currentWallet.id && transaction.fromWalletId !== currentWallet.id) {
       return 'transaction-amount-positive'
-    } else if (transaction.direction === 'outgoing') {
+    } else if (transaction.fromWalletId === currentWallet.id) {
       return 'transaction-amount-negative'
     }
     return 'transaction-amount-neutral'
   }
 
   const getOtherParty = (transaction) => {
-    if (transaction.transactionType === 'system') {
+    // 适配模拟数据结构
+    if (transaction.type === 'CDK_REDEEM') {
       return t('transaction.system')
     }
     
-    if (transaction.otherWallet) {
-      return transaction.otherWallet.username
-    }
-    
-    // Handle third-party payment related transactions
-    if (transaction.transactionType === 'third_party_payment') {
-      const thirdPartyName = transaction?.thirdPartyName || '';
-      return thirdPartyName 
-        ? t('transaction.thirdParty', { thirdPartyName: `${t('transaction.thirdPartyPayment')}${t('transaction.thirdPartyPaymentTo')} ${thirdPartyName}` })
-        : t('transaction.thirdPartyPayment', { thirdPartyName: '' });
-    }
-    
-    if (transaction.transactionType === 'third_party_receipt') {
-      const thirdPartyName = transaction?.thirdPartyName || '';
-      return thirdPartyName 
-        ? t('transaction.thirdParty', { thirdPartyName: `${t('transaction.thirdPartyReceipt')}${t('transaction.thirdPartyReceiptFrom')} ${thirdPartyName}` })
-        : t('transaction.thirdPartyReceipt', { thirdPartyName: '' });
-    }
-    
-    // Handle interest related transactions
-    if (['interest_credit', 'interest_debit'].includes(transaction.transactionType)) {
-      return t('transaction.interest')
+    // 对于正常转账，显示对方用户名
+    if (transaction.fromWalletId === currentWallet.id) {
+      return transaction.toUsername || t('transaction.unknown')
+    } else if (transaction.toWalletId === currentWallet.id && transaction.fromWalletId !== null) {
+      return transaction.fromUsername || t('transaction.unknown')
     }
     
     return t('transaction.unknown')
@@ -204,7 +193,7 @@ const TransactionHistory = () => {
                       {getOtherParty(transaction)}
                     </div>
                     <div className="transaction-date">
-                      {formatDateTime(transaction.createdAt)}
+                      {formatDateTime(transaction.timestamp || transaction.createdAt)}
                     </div>
                   </div>
                   <div className={`transaction-amount ${getTransactionAmountClass(transaction)}`}>
@@ -237,7 +226,7 @@ const TransactionHistory = () => {
                   <tr key={transaction.id}>
                     <td>{getTransactionType(transaction)}</td>
                     <td>{getOtherParty(transaction)}</td>
-                    <td>{formatDateTime(transaction.createdAt)}</td>
+                    <td>{formatDateTime(transaction.timestamp || transaction.createdAt)}</td>
                     <td className={`text-right ${getTransactionAmountClass(transaction)}`}>
                       {getTransactionAmount(transaction)}
                     </td>

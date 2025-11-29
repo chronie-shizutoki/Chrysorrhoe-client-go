@@ -8,7 +8,7 @@ const ERROR_MESSAGES = {
   serverError: 'Server error'
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://192.168.0.197:3200/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3200/api'
 
 // 配置axios实例，减少默认头部设置以降低请求大小
 const api = axios.create({
