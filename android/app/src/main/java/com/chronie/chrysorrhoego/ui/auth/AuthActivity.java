@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.chronie.chrysorrhoego.R;
-import com.chronie.chrysorrhoego.ui.wallet.WalletDashboardActivity;
+import com.chronie.chrysorrhoego.ui.navigation.NavigationActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,7 +151,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void navigateToDashboard(JSONObject walletData) throws JSONException {
-        Intent intent = new Intent(this, WalletDashboardActivity.class);
+        Intent intent = new Intent(this, NavigationActivity.class);
         intent.putExtra("wallet_id", walletData.getString("id"));
         intent.putExtra("username", walletData.getString("username"));
         intent.putExtra("balance", walletData.getDouble("balance"));

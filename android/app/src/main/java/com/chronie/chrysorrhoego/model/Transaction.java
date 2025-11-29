@@ -1,9 +1,19 @@
 package com.chronie.chrysorrhoego.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.chronie.chrysorrhoego.data.local.converter.TransactionTypeConverter;
+
 /**
  * 交易模型类，定义交易的基本属性和类型
  */
+@Entity(tableName = "transactions")
+@TypeConverters(TransactionTypeConverter.class)
 public class Transaction {
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
     private String id;
     private Type type;
     private double amount;
@@ -15,6 +25,10 @@ public class Transaction {
     private String recipientId;
     private boolean isOutgoing;
     private Status status;
+    private Direction direction;
+    private String transactionId;
+    private String currencyCode;
+    private String memo;
 
     /**
      * 交易类型枚举
@@ -37,6 +51,14 @@ public class Transaction {
         CANCELLED
     }
 
+    /**
+     * 交易方向枚举
+     */
+    public enum Direction {
+        INCOMING,
+        OUTGOING
+    }
+
     public Transaction() {
         // 默认构造函数
     }
@@ -56,6 +78,47 @@ public class Transaction {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+    
+    // Getter and Setter for uid
+    public int getUid() {
+        return uid;
+    }
+    
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public Type getType() {

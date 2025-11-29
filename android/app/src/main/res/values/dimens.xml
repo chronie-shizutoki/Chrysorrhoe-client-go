@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 间距和内边距 -->
-    <dimen name="spacing_4">4dp</dimen>
-    <dimen name="spacing_8">8dp</dimen>
-    <dimen name="spacing_12">12dp</dimen>
-    <dimen name="spacing_16">16dp</dimen>
-    <dimen name="spacing_20">20dp</dimen>
-    <dimen name="spacing_24">24dp</dimen>
-    <dimen name="spacing_32">32dp</dimen>
-    <dimen name="spacing_48">48dp</dimen>
+    <!-- Spacing variables matching web design -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">16dp</dimen>
+    <dimen name="space_lg">24dp</dimen>
+    <dimen name="space_xl">32dp</dimen>
     
-    <!-- 卡片相关尺寸 -->
-    <dimen name="card_corner_radius">16dp</dimen>
-    <dimen name="card_elevation">4dp</dimen>
-    <dimen name="card_elevation_high">8dp</dimen>
-    <dimen name="card_margin_horizontal">16dp</dimen>
-    <dimen name="card_margin_vertical">12dp</dimen>
+    <!-- Border radius -->
+    <dimen name="radius_sm">4dp</dimen>
+    <dimen name="radius_md">8dp</dimen>
+    <dimen name="radius_lg">12dp</dimen>
+    <dimen name="button_radius">8dp</dimen>
     
-    <!-- 输入框相关尺寸 -->
-    <dimen name="input_field_corner_radius">12dp</dimen>
-    <dimen name="input_field_padding">16dp</dimen>
+    <!-- 别名资源，兼容旧引用 -->
+    <dimen name="spacing_xl">@dimen/space_xl</dimen>
+    <dimen name="spacing_l">@dimen/space_lg</dimen>
+    <dimen name="spacing_m">@dimen/space_md</dimen>
+    <dimen name="spacing_s">@dimen/space_sm</dimen>
+    <dimen name="text_size_xl">@dimen/font_size_xl</dimen>
+    <dimen name="text_size_body">@dimen/font_size_base</dimen>
+    <dimen name="text_size_button">@dimen/font_size_base</dimen>
+    <dimen name="button_height_large">@dimen/button_height</dimen>
+    <dimen name="buttonRadius">@dimen/button_radius</dimen>
+    <dimen name="cardRadius">@dimen/radius_md</dimen>
+    <dimen name="card_corner_radius">@dimen/radius_md</dimen>
     
-    <!-- 按钮相关尺寸 -->
-    <dimen name="button_corner_radius">12dp</dimen>
+    <!-- Typography sizes -->
+    <dimen name="font_size_base">16sp</dimen>
+    <dimen name="font_size_sm">14sp</dimen>
+    <dimen name="font_size_lg">20sp</dimen>
+    <dimen name="font_size_xl">24sp</dimen>
+    
+    <!-- Component dimensions -->
     <dimen name="button_height">48dp</dimen>
-    <dimen name="button_padding_horizontal">24dp</dimen>
+    <dimen name="input_height">48dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
     
-    <!-- 其他UI元素尺寸 -->
-    <dimen name="icon_size_24">24dp</dimen>
-    <dimen name="icon_size_32">32dp</dimen>
-    <dimen name="icon_size_48">48dp</dimen>
+    <!-- Layout margins -->
+    <dimen name="activity_horizontal_margin">@dimen/space_md</dimen>
+    <dimen name="activity_vertical_margin">@dimen/space_md</dimen>
     
-    <!-- 文本尺寸 -->
-    <dimen name="text_small">12sp</dimen>
-    <dimen name="text_regular">14sp</dimen>
-    <dimen name="text_medium">16sp</dimen>
-    <dimen name="text_large">18sp</dimen>
-    <dimen name="text_xlarge">20sp</dimen>
-    <dimen name="text_xxlarge">24sp</dimen>
-    
-    <!-- 动画相关 -->
-    <dimen name="snackbar_elevation">6dp</dimen>
-    
-    <!-- 状态栏和工具栏 -->
-    <dimen name="toolbar_height">56dp</dimen>
+    <!-- Header and footer -->
+    <dimen name="header_height">56dp</dimen>
+    <dimen name="footer_height">64dp</dimen>
 </resources>

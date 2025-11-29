@@ -2,6 +2,8 @@ package com.chronie.chrysorrhoego.ui.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +12,6 @@ import android.widget.TextView;
 import androidx.viewpager.widget.ViewPager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.tabs.TabLayout;
 
 import com.chronie.chrysorrhoego.R;
 import com.chronie.chrysorrhoego.ui.auth.AuthActivity;
@@ -29,7 +30,6 @@ public class WalletDashboardActivity extends AppCompatActivity {
     private Button transactionHistoryButton;
     private Button logoutButton;
     private ProgressBar loadingIndicator;
-    private TabLayout featureTabs; // TabLayout引用
     private View transferContainer; // 转账功能容器
     private View cdkRedeemContainer; // CDK储值功能容器
     private View transactionHistoryContainer; // 交易记录功能容器
@@ -66,7 +66,6 @@ public class WalletDashboardActivity extends AppCompatActivity {
         transactionHistoryButton = findViewById(R.id.transaction_history_button);
         logoutButton = findViewById(R.id.logout_button);
         loadingIndicator = findViewById(R.id.loading_indicator);
-        featureTabs = findViewById(R.id.feature_tabs); // 初始化TabLayout
         transferContainer = findViewById(R.id.transfer_container);
         cdkRedeemContainer = findViewById(R.id.cdk_redeem_container);
         transactionHistoryContainer = findViewById(R.id.transaction_history_container);
@@ -76,7 +75,6 @@ public class WalletDashboardActivity extends AppCompatActivity {
         Log.d(TAG, "transferButton: " + (transferButton != null ? "initialized" : "null"));
         Log.d(TAG, "cdkRedeemButton: " + (cdkRedeemButton != null ? "initialized" : "null"));
         Log.d(TAG, "transactionHistoryButton: " + (transactionHistoryButton != null ? "initialized" : "null"));
-        Log.d(TAG, "featureTabs: " + (featureTabs != null ? "initialized" : "null"));
         
         // 确保初始状态下只有转账容器可见
         if (transferContainer != null) {
@@ -94,25 +92,8 @@ public class WalletDashboardActivity extends AppCompatActivity {
     }
 
     private void setupTabLayoutListener() {
-        if (featureTabs != null) {
-            featureTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    int position = tab.getPosition();
-                    updateFeatureVisibility(position);
-                }
-
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                    // 不需要特别处理
-                }
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                    // 不需要特别处理
-                }
-            });
-        }
+        // 简化实现，不再使用TabLayout
+        // 直接默认显示转账功能，通过按钮切换到其他功能
     }
 
     private void updateFeatureVisibility(int tabPosition) {
@@ -136,9 +117,24 @@ public class WalletDashboardActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        transferButton.setOnClickListener(v -> navigateToTransfer());
-        cdkRedeemButton.setOnClickListener(v -> navigateToCdkRedeem());
-        transactionHistoryButton.setOnClickListener(v -> navigateToTransactionHistory());
+        // 转账按钮
+        transferButton.setOnClickListener(v -> {
+            // 直接导航到转账页面
+            navigateToTransfer();
+        });
+
+        // CDK兑换按钮
+        cdkRedeemButton.setOnClickListener(v -> {
+            // 直接导航到CDK兑换页面
+            navigateToCdkRedeem();
+        });
+
+        // 交易历史按钮
+        transactionHistoryButton.setOnClickListener(v -> {
+            // 直接启动交易历史Activity
+            navigateToTransactionHistory();
+        });
+
         logoutButton.setOnClickListener(v -> handleLogout());
     }
 
@@ -215,9 +211,6 @@ public class WalletDashboardActivity extends AppCompatActivity {
             if (transferContainer != null) transferContainer.setVisibility(View.VISIBLE);
             if (cdkRedeemContainer != null) cdkRedeemContainer.setVisibility(View.GONE);
             if (transactionHistoryContainer != null) transactionHistoryContainer.setVisibility(View.GONE);
-            if (featureTabs != null) {
-                featureTabs.getTabAt(0).select(); // 选择第一个标签
-            }
         }
     }
 }

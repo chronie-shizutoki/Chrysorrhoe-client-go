@@ -1,95 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Material Design 3 现代色彩系统 -->
+    <!-- Essential colors matching web design -->
+    <color name="color_bg">#F8FAFC</color>
+    <color name="color_surface">#FFFFFF</color>
+    <color name="color_text">#1A202C</color>
+    <color name="color_text_muted">#4A5568</color>
+    <color name="color_text_subtle">#999999</color>
+    <color name="color_text_secondary">#4A5568</color>
+    <color name="color_border">#E2E8F0</color>
+    <color name="color_primary">#3D7DFA</color>
+    <color name="color_primary_700">#2E64D9</color>
+    <color name="color_secondary">#805AD5</color>
+    <color name="color_secondary_700">#6B46C1</color>
+    <color name="color_success">#38A169</color>
+    <color name="color_warning">#ED8936</color>
+    <color name="color_danger">#E53E3E</color>
+    <color name="color_danger_700">#C82333</color>
+    <color name="color_focus">#3D7DFA</color>
     
-    <!-- 主色调 - 现代蓝色调，传达信任和专业感 -->
-    <color name="primary">#2563EB</color>
-    <color name="primary_container">#DBEAFE</color>
-    <color name="primary_focused">#1D4ED8</color>
-    <color name="primary_disabled">#93C5FD</color>
-    <color name="primary_inverse">#1E40AF</color>
-    <color name="primary_ripple">@android:color/white</color>
-    <color name="success_green">#4CAF50</color>
-    <color name="error_red">#F44336</color>
-    
-    <!-- 次要色调 - 使用更现代的紫色调作为强调色 -->
-    <color name="secondary">#7C3AED</color>
-    <color name="secondary_container">#EDE9FE</color>
-    <color name="secondary_focused">#6D28D9</color>
-    <color name="secondary_disabled">#C4B5FD</color>
-    
-    <!-- 三级色调 - 使用现代青色作为补充色 -->
-    <color name="tertiary">#0EA5E9</color>
-    <color name="tertiary_container">#E0F2FE</color>
-    <color name="tertiary_focused">#0284C7</color>
-    
-    <!-- 状态颜色 - 优化的状态指示色 -->
-    <color name="error">#EF4444</color>
-    <color name="error_container">#FEE2E2</color>
-    <color name="success">#10B981</color>
-    <color name="success_container">#DCFCE7</color>
-    <color name="warning">#F59E0B</color>
-    <color name="warning_container">#FEF3C7</color>
-    
-    <!-- 中性色系统 - 更现代的灰色层次 -->
-    <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#F1F5F9</color>
-    <color name="surface_tint">#2563EB</color>
+    <!-- 兼容旧引用的颜色资源 -->
+    <color name="primary">#3D7DFA</color>
+    <color name="success">#38A169</color>
+    <color name="error">#E53E3E</color>
+    <color name="warning">#ED8936</color>
     <color name="background">#F8FAFC</color>
-    <color name="outline">#94A3B8</color>
-    <color name="outline_variant">#CBD5E1</color>
-    <color name="inverse_surface">#1E293B</color>
-    <color name="inverse_on_surface">#F8FAFC</color>
-    <color name="inverse_primary">#93C5FD</color>
     
-    <!-- 文本颜色系统 - 优化的对比度 -->
+    <!-- 兼容旧引用的颜色资源 -->
+    <color name="color_background">#F8FAFC</color>
+    <color name="background_color">#F8FAFC</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="on_primary_container">#0C2166</color>
-    <color name="on_secondary">#FFFFFF</color>
-    <color name="on_secondary_container">#291541</color>
-    <color name="on_tertiary">#FFFFFF</color>
-    <color name="on_tertiary_container">#075985</color>
-    <color name="on_surface">#111827</color>
-    <color name="on_surface_variant">#64748B</color>
-    <color name="on_error">#FFFFFF</color>
-    <color name="on_error_container">#410E0B</color>
-    <color name="on_success">#FFFFFF</color>
-    <color name="on_success_container">#065F46</color>
-    <color name="on_warning">#111827</color>
-    <color name="on_warning_container">#78350F</color>
-    
-    <!-- 标准文本颜色 -->
-    <color name="text_primary">#111827</color>
-    <color name="text_secondary">#4B5563</color>
-    <color name="text_hint">#9CA3AF</color>
-    <color name="text_disabled">#D1D5DB</color>
-    
-    <!-- 兼容性颜色 -->
-    <color name="colorPrimary">@color/primary</color>
-    <color name="colorPrimaryDark">#1E40AF</color>
-    <color name="colorAccent">@color/secondary</color>
+    <color name="on_primary_container">#FFFFFF</color>
+    <color name="primary_container">#E6F0FF</color>
+    <color name="outline">#E2E8F0</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="primary_ripple">#3D7DFA</color>
+    <color name="primary_focused">#3D7DFA</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="color_negative">#FF4D4F</color>
+    <color name="status_completed_text">#52C41A</color>
+    <color name="secondary">#7C3AED</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="text_primary">#1A202C</color>
+    <color name="text_secondary">#4A5568</color>
+    <color name="text_hint">#718096</color>
+    <color name="card_background">#FFFFFF</color>
     
-    <!-- 布局相关颜色 -->
-    <color name="card_background">@color/surface</color>
-    <color name="background_color">@color/background</color>
+    <!-- Status colors for wallet balance -->
+    <color name="balance_negative">#DC3545</color>
+    <color name="balance_low">#FFC107</color>
+    <color name="balance_positive">#28A745</color>
     
-    <!-- 交易相关颜色 -->
-    <color name="color_negative">@color/error</color>
-    <color name="color_positive">@color/success</color>
-    <color name="status_completed_text">@color/success</color>
-    <color name="status_pending_text">@color/warning</color>
-    <color name="status_failed_text">@color/error</color>
-    
-    <!-- 阴影和覆盖层 -->
-    <color name="shadow">#000000</color>
-    <color name="scrim">#000000</color>
-    
-    <!-- 保留默认颜色以避免兼容性问题 -->
-    <color name="purple_200">#C4B5FD</color>
-    <color name="purple_500">#8B5CF6</color>
-    <color name="purple_700">#6D28D9</color>
-    <color name="teal_200">#5EEAD4</color>
-    <color name="teal_700">#0D9488</color>
+    <!-- System colors -->
+    <color name="color_black">#FF000000</color>
+    <color name="color_white">#FFFFFFFF</color>
 </resources>

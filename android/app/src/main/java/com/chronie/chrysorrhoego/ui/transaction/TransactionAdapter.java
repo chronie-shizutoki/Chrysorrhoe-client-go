@@ -3,6 +3,7 @@ package com.chronie.chrysorrhoego.ui.transaction;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.graphics.Color;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -134,9 +135,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
      */
     private int getAmountColor(Transaction.Type type, boolean isOutgoing) {
         if (type == Transaction.Type.DEPOSIT || (!isOutgoing && type == Transaction.Type.TRANSFER)) {
-            return context.getResources().getColor(R.color.success_green);
+            return Color.GREEN;
         } else {
-            return context.getResources().getColor(R.color.error_red);
+            return Color.RED;
         }
     }
 

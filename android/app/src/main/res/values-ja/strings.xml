@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- アプリ名 -->
+    <string name="app_name">クリソロエ GO</string>
+    <string name="app_name_full">Chrysorrhoe GO</string>
+    
+    <!-- ログイン関連 -->
+    <string name="login_title">ログイン</string>
+    <string name="signup_title">アカウント登録</string>
+    <string name="email_hint">メールアドレス</string>
+    <string name="password_hint">パスワード</string>
+    <string name="confirm_password_hint">パスワード（確認）</string>
+    <string name="username_hint">ユーザー名</string>
+    <string name="login_button">ログイン</string>
+    <string name="signup_button">登録</string>
+    <string name="forgot_password">パスワードをお忘れですか？</string>
+    <string name="already_have_account">アカウントをお持ちですか？すぐにログイン</string>
+    <string name="dont_have_account">アカウントをお持ちでないですか？すぐに登録</string>
+    <string name="login_success">ログインに成功しました</string>
+    <string name="login_failed">ログインに失敗しました。認証情報を確認してください</string>
+    <string name="signup_success">登録に成功しました。ログインしてください</string>
+    <string name="signup_failed">登録に失敗しました。後でもう一度お試しください</string>
+    
+    <!-- ナビゲーション -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_transactions">取引</string>
+    <string name="nav_wallet">ウォレット</string>
+    <string name="nav_settings">設定</string>
+    
+    <!-- ウォレットページ -->
+    <string name="wallet_balance">ウォレット残高</string>
+    <string name="wallet_id">ウォレットID</string>
+    <string name="last_updated">最終更新</string>
+    <string name="refresh_wallet">ウォレットを更新</string>
+    <string name="wallet_loading">ウォレット情報を読み込んでいます...</string>
+    <string name="wallet_error">ウォレット情報の読み込みに失敗しました</string>
+    <string name="wallet_empty">ウォレットデータがありません</string>
+    
+    <!-- 取引履歴 -->
+    <string name="transaction_history">取引履歴</string>
+    <string name="all_transactions">すべての取引</string>
+    <string name="sent_transactions">送金</string>
+    <string name="received_transactions">受取</string>
+    <string name="filter_transactions">取引をフィルター</string>
+    <string name="transaction_date">日付</string>
+    <string name="transaction_amount">金額</string>
+    <string name="transaction_status">ステータス</string>
+    <string name="transaction_type">タイプ</string>
+    <string name="transaction_id">取引ID</string>
+    <string name="transaction_details">取引詳細</string>
+    <string name="transaction_loading">取引履歴を読み込んでいます...</string>
+    <string name="transaction_error">取引履歴の読み込みに失敗しました</string>
+    <string name="no_transactions">取引履歴がありません</string>
+    
+    <!-- 送金機能 -->
+    <string name="transfer_money">送金</string>
+    <string name="transfer_title">送金</string>
+    <string name="recipient_id">受取人ID</string>
+    <string name="transfer_amount">送金金額</string>
+    <string name="transfer_memo">メモ</string>
+    <string name="transfer_button">送金を確定</string>
+    <string name="transfer_confirm_title">送金確認</string>
+    <string name="transfer_confirm_message">%s に %s を送金しますか？</string>
+    <string name="transfer_success">送金が成功しました</string>
+    <string name="transfer_failed">送金に失敗しました</string>
+    <string name="transfer_processing">処理中...</string>
+    <string name="transfer_validation_error">入力内容を確認してください</string>
+    <string name="insufficient_balance">残高が不足しています</string>
+    
+    <!-- CDK交換 -->
+    <string name="cdk_redeem">CDK交換</string>
+    <string name="cdk_code">CDKコード</string>
+    <string name="redeem_button">交換</string>
+    <string name="redeem_success">交換が成功しました</string>
+    <string name="redeem_failed">交換に失敗しました</string>
+    <string name="invalid_cdk">無効なCDKコードです</string>
+    <string name="cdk_already_used">このCDKコードは既に使用済みです</string>
+    <string name="cdk_expired">CDKコードの有効期限が切れています</string>
+    <string name="cdk_loading">処理中...</string>
+    <string name="cdk_redeem_title">CDK交換</string>
+    <string name="cdk_redeem_description">有効なCDKコードを入力して交換してください</string>
+    
+    <!-- 設定ページ -->
+    <string name="settings_title">設定</string>
+    <string name="account_settings">アカウント設定</string>
+    <string name="security_settings">セキュリティ設定</string>
+    <string name="notification_settings">通知設定</string>
+    <string name="language_settings">言語設定</string>
+    <string name="use_system_language">システム言語を使用</string>
+    <string name="current_language">現在の言語</string>
+    <string name="save_button">保存</string>
+    <string name="error_saving_language">言語設定の保存に失敗しました</string>
+    <string name="about_app">アプリについて</string>
+    <string name="logout">ログアウト</string>
+    <string name="logout_confirm">ログアウトしますか？</string>
+    <string name="version">バージョン</string>
+    <string name="app_info">アプリ情報</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="terms_of_service">利用規約</string>
+    <string name="clear_cache">キャッシュを消去</string>
+    <string name="cache_cleared">キャッシュを消去しました</string>
+    
+    <!-- 言語設定 -->
+    <string name="select_language">言語を選択</string>
+    <string name="system_default">システム標準</string>
+    <string name="language_english">English</string>
+    <string name="language_chinese">简体中文</string>
+    <string name="language_chinese_traditional">繁體中文</string>
+    <string name="language_japanese">日本語</string>
+    <string name="language_korean">한국어</string>
+    <string name="language_saved">言語設定を保存しました</string>
+    <string name="restart_to_apply">変更を適用するにはアプリを再起動してください</string>
+    
+    <!-- セキュリティ設定 -->
+    <string name="biometric_auth">生体認証</string>
+    <string name="app_lock">アプリロック</string>
+    <string name="lock_timeout">ロックタイムアウト</string>
+    <string name="minute_1">1分</string>
+    <string name="minute_5">5分</string>
+    <string name="minute_15">15分</string>
+    <string name="hour_1">1時間</string>
+    <string name="never">なし</string>
+    <string name="verify_identity">本人確認</string>
+    <string name="app_locked_due_to_inactivity">アプリは非アクティブのためロックされました</string>
+    <string name="security_features">セキュリティ機能</string>
+    <string name="prevent_screenshots">スクリーンショットを防止</string>
+    <string name="secure_storage">安全なストレージ</string>
+    <string name="security_summary">アプリのセキュリティ設定を管理</string>
+    
+    <!-- 通知設定 -->
+    <string name="enable_notifications">通知を有効にする</string>
+    <string name="transaction_notifications">取引通知</string>
+    <string name="promotional_notifications">プロモーション通知</string>
+    <string name="security_notifications">セキュリティ通知</string>
+    <string name="notification_sound">通知音</string>
+    <string name="notification_vibration">バイブレーション</string>
+    
+    <!-- 共通ボタンとメッセージ -->
+    <string name="confirm">確認</string>
+    <string name="cancel">キャンセル</string>
+    <string name="ok">OK</string>
+    <string name="retry">再試行</string>
+    <string name="back">戻る</string>
+    <string name="save">保存</string>
+    <string name="delete">削除</string>
+    <string name="edit">編集</string>
+    <string name="search">検索</string>
+    <string name="loading">読み込み中...</string>
+    <string name="error">エラー</string>
+    <string name="success">成功</string>
+    <string name="failed">失敗</string>
+    <string name="no_internet">インターネット接続がありません</string>
+    <string name="network_error">ネットワークエラー</string>
+    <string name="please_wait">お待ちください...</string>
+    <string name="something_went_wrong">エラーが発生しました。再試行してください</string>
+    
+    <!-- 取引ステータス -->
+    <string name="status_completed">完了</string>
+    <string name="status_pending">保留中</string>
+    <string name="status_failed">失敗</string>
+    <string name="status_cancelled">キャンセル</string>
+    
+    <!-- 取引タイプ -->
+    <string name="type_transfer">送金</string>
+    <string name="type_deposit">預入</string>
+    <string name="type_withdrawal">引出</string>
+    <string name="type_cdk_redeem">CDK交換</string>
+    <string name="type_system">システム</string>
+    
+    <!-- 金額形式 -->
+    <string name="currency_format">¥%.2f</string>
+    <string name="currency_format_with_code">%s %.2f</string>
+    
+    <!-- 日付形式 -->
+    <string name="date_format">yyyy-MM-dd</string>
+    <string name="datetime_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="time_format">HH:mm</string>
+    
+    <!-- 入力検証 -->
+    <string name="required_field">このフィールドは必須です</string>
+    <string name="invalid_email">有効なメールアドレスを入力してください</string>
+    <string name="invalid_amount">有効な金額を入力してください</string>
+    <string name="amount_too_small">金額は%sより小さくすることはできません</string>
+    <string name="amount_too_large">金額は%sを超えることはできません</string>
+    <string name="password_too_short">パスワードは少なくとも8文字必要です</string>
+    <string name="password_mismatch">パスワードが一致しません</string>
+    <string name="invalid_cdk_format">有効なCDKコード形式を入力してください</string>
+    
+    <!-- 生体認証 -->
+    <string name="biometric_title">生体認証</string>
+    <string name="biometric_subtitle">本人確認を行ってください</string>
+    <string name="biometric_not_available">生体認証が利用できません</string>
+    <string name="biometric_error">生体認証に失敗しました</string>
+    <string name="biometric_success">生体認証に成功しました</string>
+    
+    <!-- セキュリティヒント -->
+    <string name="security_tip_title">セキュリティヒント</string>
+    <string name="security_tip_content">ウォレット情報と取引パスワードを他人と共有しないでください</string>
+    <string name="secure_mode_enabled">セキュアモードが有効になっています</string>
+    <string name="prevent_screenshots_enabled">スクリーンショット防止が有効になっています</string>
+    
+    <!-- その他のテキスト -->
+    <string name="welcome_back">おかえりなさい</string>
+    <string name="create_wallet">ウォレットを作成</string>
+    <string name="restore_wallet">ウォレットを復元</string>
+    <string name="share_wallet">ウォレットを共有</string>
+    <string name="copy_to_clipboard">クリップボードにコピー</string>
+    <string name="copied_to_clipboard">クリップボードにコピーされました</string>
+    <string name="qr_code_scanner">QRコードスキャナー</string>
+    <string name="generate_qr_code">QRコードを生成</string>
+    <string name="help_support">ヘルプとサポート</string>
+    <string name="feedback">フィードバック</string>
+    <string name="rate_app">アプリを評価</string>
+    <string name="update_available">新しいバージョンが利用可能です</string>
+    <string name="update_now">今すぐ更新</string>
+    <string name="later">後で</string>
+</resources>

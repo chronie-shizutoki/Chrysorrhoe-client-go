@@ -2,6 +2,11 @@
     <string name="app_name">Chrysorrhoe GO</string>
     <string name="wallet_dashboard">Wallet Dashboard</string>
     
+    <!-- 底部导航栏标签 -->
+    <string name="tab_wallet">钱包</string>
+    <string name="tab_transaction">交易</string>
+    <string name="tab_exchange">兑换</string>
+    
     <!-- 认证相关 -->
     <string name="login_title">Login</string>
     <string name="username">Username</string>
@@ -16,6 +21,19 @@
     <string name="cdk_redeem_button">Redeem CDK</string>
     <string name="transaction_history_button">Transaction History</string>
     <string name="logout_button">Logout</string>
+    
+    <!-- 安全相关字符串 -->
+    <string name="verify_identity">Verify Your Identity</string>
+    <string name="app_locked_due_to_inactivity">App Locked Due to Inactivity</string>
+    <string name="use_biometric_to_unlock">Use your biometric to unlock the app</string>
+    <string name="authenticate_to_proceed">Authenticate to proceed</string>
+    <string name="cancel">Cancel</string>
+    <string name="unlock">Unlock</string>
+    <string name="unlock_success">Successfully unlocked</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="biometric_not_available">Biometric authentication is not available on this device</string>
+    <string name="app_locked_message">The app has been locked to protect your account. Please verify your identity to continue.</string>
+    <string name="app_logo">App Logo</string>
     
     <!-- 转账表单 -->
     <string name="transfer_title">Transfer</string>
@@ -67,7 +85,6 @@
     <string name="cdk_redeem_hints">Tips:\n1. CDK codes usually consist of letters and numbers\n2. Each CDK code can only be used once\n3. CDK codes have validity periods, please use them promptly\n4. If you have any questions, please contact customer service</string>
 
     <!-- 通用 -->
-    <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="loading">Loading...</string>
     <string name="refreshing">Refreshing...</string>
@@ -80,6 +97,26 @@
     <string name="button_confirm">Confirm</string>
     <string name="button_cancel">Cancel</string>
     <string name="message_resource_not_available">Resource not available</string>
+    
+    <!-- 设置页面相关 -->
+    <string name="settings_title">Settings</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="security_settings">Security Settings</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="language_settings">Language Settings</string>
+    <string name="use_system_language">Use system language</string>
+    <string name="current_language">Current language</string>
+    <string name="select_language">Select language</string>
+    <string name="save_button">Save</string>
+    <string name="language_saved">Language settings saved</string>
+    <string name="error_saving_language">Failed to save language settings</string>
+    
+    <!-- 支持的语言列表 -->
+    <string name="language_english">English</string>
+    <string name="language_chinese">中文</string>
+    <string name="language_chinese_traditional">繁體中文</string>
+    <string name="language_japanese">日本語</string>
+    <string name="language_korean">한국어</string>
     <string name="message_server_error_retry">Server error. Please try again later.</string>
     <string name="message_please_login_again">Please login again</string>
     <string name="error_access_denied">Access denied</string>
@@ -122,4 +159,5 @@
     <string name="title_cdk_redeem">CDK Redeem</string>
     <string name="error_input_not_safe">Input is not safe</string>
     <string name="cdk_success_message">CDK redeemed successfully</string>
+    <string name="balance_status_good">Good</string>
 </resources>

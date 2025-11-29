@@ -3,34 +3,40 @@
     <!-- Material Design 3 现代主题 -->
     <style name="Theme.ChrysorrhoeGo" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- 主要品牌颜色 -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryContainer">@color/primary_container</item>
-        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryContainer">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/color_white</item>
         
         <!-- 次要品牌颜色 -->
-        <item name="colorSecondary">@color/secondary</item>
-        <item name="colorSecondaryContainer">@color/secondary_container</item>
-        <item name="colorOnSecondary">@color/on_secondary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSecondaryContainer">@color/color_secondary</item>
+        <item name="colorOnSecondary">@color/color_white</item>
         
         <!-- 背景和表面颜色 -->
-        <item name="android:colorBackground">@color/background</item>
-        <item name="colorSurface">@color/surface</item>
-        <item name="colorSurfaceVariant">@color/surface_variant</item>
-        <item name="colorOnSurface">@color/on_surface</item>
-        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+        <item name="android:colorBackground">@color/color_bg</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorSurfaceVariant">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_text</item>
+        <item name="colorOnSurfaceVariant">@color/color_text_muted</item>
         
         <!-- 错误颜色 -->
-        <item name="colorError">@color/error</item>
-        <item name="colorErrorContainer">@color/error_container</item>
-        <item name="colorOnError">@color/on_error</item>
-        <item name="colorOnErrorContainer">@color/on_error_container</item>
+        <item name="colorError">@color/color_danger</item>
+        <item name="colorErrorContainer">@color/color_danger</item>
+        <item name="colorOnError">@color/color_white</item>
+        <item name="colorOnErrorContainer">@color/color_white</item>
         
         <!-- 轮廓和阴影 -->
-        <item name="colorOutline">@color/outline</item>
+        <item name="colorOutline">@color/color_border</item>
         
         <!-- 状态栏和导航栏 -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/surface</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/color_surface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@color/color_surface</item>
+        
+        <!-- 文本颜色 -->
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textColorSecondary">@color/color_text_muted</item>
+        <item name="android:textColorTertiary">@color/color_text_subtle</item>
         
         <!-- 排版 -->
         <item name="textAppearanceHeadlineLarge">@style/TextAppearance.ChrysorrhoeGo.HeadlineLarge</item>
@@ -45,6 +51,11 @@
         
         <!-- 组件样式 -->
         <item name="materialButtonStyle">@style/Widget.ChrysorrhoeGo.Button</item>
+        <item name="android:buttonStyle">@style/Widget.Material3.Button</item>
+        
+        <!-- 输入框样式 -->
+        <item name="textInputStyle">@style/Widget.Material3.TextInputEditText.FilledBox</item>
+        <item name="textInputOutlinedStyle">@style/Widget.Material3.TextInputEditText.OutlinedBox</item>
     </style>
     
     <!-- 无操作栏主题 -->
@@ -58,55 +69,55 @@
     <!-- 排版样式 -->
     <style name="TextAppearance.ChrysorrhoeGo.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.0</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.0</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.004</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.006</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.0125</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.0093</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColor">@color/color_text</item>
         <item name="android:letterSpacing">0.006</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">@color/color_text_muted</item>
         <item name="android:letterSpacing">0.011</item>
     </style>
     
     <style name="TextAppearance.ChrysorrhoeGo.BodySmall" parent="TextAppearance.Material3.BodySmall">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textColor">@color/color_text_muted</item>
         <item name="android:letterSpacing">0.013</item>
     </style>
     
@@ -129,19 +140,19 @@
     
     <!-- 添加TextInputLayout主题覆盖 -->
     <style name="ThemeOverlay.ChrysorrhoeGo.TextInput" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorError">@color/error</item>
-        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorError">@color/color_danger</item>
+        <item name="hintTextColor">@color/color_text_muted</item>
         <item name="shapeAppearance">@style/ShapeAppearance.ChrysorrhoeGo.SmallComponent</item>
     </style>
 
     <!-- 自定义TextInputLayout样式 - 使用Material Design 3兼容属性 -->
     <style name="Widget.ChrysorrhoeGo.TextInputLayout.OutlinedBox" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="shapeAppearance">@style/ShapeAppearance.ChrysorrhoeGo.SmallComponent</item>
-        <item name="boxBackgroundColor">@color/surface</item>
-        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="boxBackgroundColor">@color/color_surface</item>
+        <item name="hintTextColor">@color/color_text_muted</item>
         <item name="boxStrokeWidth">1dp</item>
-        <item name="boxStrokeColor">@color/outline</item>
+        <item name="boxStrokeColor">@color/color_border</item>
     </style>
 
     <!-- 添加形状外观定义 -->
