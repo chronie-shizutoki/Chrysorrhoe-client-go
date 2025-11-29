@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">Chrysorrhoe GO</string>
+    <string name="wallet_dashboard">Wallet Dashboard</string>
+    
+    <!-- 认证相关 -->
+    <string name="login_title">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="login_error">Login failed. Please check your credentials.</string>
+    
+    <!-- 钱包相关 -->
+    <string name="wallet_balance">Balance</string>
+    <string name="transfer_button">Transfer</string>
+    <string name="cdk_redeem_button">Redeem CDK</string>
+    <string name="transaction_history_button">Transaction History</string>
+    <string name="logout_button">Logout</string>
+    
+    <!-- 转账表单 -->
+    <string name="transfer_title">Transfer</string>
+    <string name="recipient_username">Recipient Username</string>
+    <string name="transfer_recipient_hint">Enter recipient username</string>
+    <string name="transfer_recipient_label">Recipient Username</string>
+    <string name="amount">Amount</string>
+    <string name="transfer_amount_label">Transfer Amount</string>
+    <string name="transfer_amount_hint">Enter transfer amount</string>
+    <string name="transfer_memo_label">Transfer Memo</string>
+    <string name="transfer_memo_hint">Optional memo for transfer</string>
+    <string name="transfer_submit">Transfer</string>
+    <string name="transfer_success">Transfer successful!</string>
+    <string name="transfer_error">Transfer failed</string>
+    <string name="error_insufficient_funds">Insufficient funds</string>
+    <string name="error_invalid_amount">Invalid amount</string>
+    <string name="error_invalid_recipient">Invalid recipient</string>
+    
+    <!-- CDK兑换 -->
+    <string name="cdk_redeem_title">Redeem CDK</string>
+    <string name="cdk_code">CDK Code</string>
+    <string name="cdk_redeem_label">CDK Code</string>
+    <string name="cdk_redeem_hint">Enter CDK code</string>
+    <string name="cdk_redeem_success">CDK redeemed successfully!</string>
+    <string name="validate_button">Validate</string>
+    <string name="redeem_button">Redeem</string>
+    <string name="cdk_success">CDK redeemed successfully!</string>
+    <string name="cdk_error">CDK redemption failed</string>
+    <string name="cdk_invalid">Invalid CDK format</string>
+    
+    <!-- 交易历史相关 -->
+    <string name="transaction_history_title">Transaction History</string>
+    <string name="transaction_history_empty">No transaction records</string>
+    <string name="transaction_type_transfer">Transfer</string>
+    <string name="transaction_type_receive">Receive</string>
+    <string name="transaction_type_cdk_redeem">CDK Redeem</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_failed">Failed</string>
+
+    <!-- 错误提示 -->
+    <string name="error_general">Operation failed, please try again</string>
+    <string name="error_network">Network connection failed, please check network settings</string>
+    <string name="error_server">Server error, please try again later</string>
+    <string name="error_timeout">Request timeout, please try again</string>
+    <string name="error_unknown">Unknown error, please contact customer service</string>
+
+    <!-- CDK兑换提示 -->
+    <string name="cdk_redeem_hints">Tips:\n1. CDK codes usually consist of letters and numbers\n2. Each CDK code can only be used once\n3. CDK codes have validity periods, please use them promptly\n4. If you have any questions, please contact customer service</string>
+
+    <!-- 通用 -->
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="loading">Loading...</string>
+    <string name="refreshing">Refreshing...</string>
+    <string name="processing">Processing...</string>
+    <string name="success">Success</string>
+    <string name="error">Error</string>
+    <string name="try_again">Please try again</string>
+    <!-- 按钮文本 -->
+    <string name="button_ok">OK</string>
+    <string name="button_confirm">Confirm</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="message_resource_not_available">Resource not available</string>
+    <string name="message_server_error_retry">Server error. Please try again later.</string>
+    <string name="message_please_login_again">Please login again</string>
+    <string name="error_access_denied">Access denied</string>
+    <string name="message_insufficient_permissions">Insufficient permissions</string>
+    <string name="error_not_found">Not found</string>
+    <string name="error_network_connection">Network connection error</string>
+    <string name="error_authentication_failed">Authentication failed</string>
+    <string name="error_session_expired">Session expired</string>
+    <string name="transfer_error_invalid_amount">Invalid amount</string>
+    <string name="ok_button">OK</string>
+    <string name="transfer_success_message">Transfer successful!</string>
+    <string name="transfer_error_invalid_input">Invalid input</string>
+    <string name="title_transaction_history">Transaction History</string>
+    <string name="transaction_cdk_redeem">CDK Redeem</string>
+    <string name="transaction_fee">Transaction Fee</string>
+    <string name="transaction_deposit">Deposit</string>
+    <string name="transaction_withdrawal">Withdrawal</string>
+    <string name="transaction_transfer_sent">Transfer to </string>
+    <string name="transaction_transfer_received">Transfer from </string>
+    <string name="error_cdk_code_required">CDK code required</string>
+    <string name="error_invalid_cdk_format">Invalid CDK format</string>
+    <string name="cdk_success_title">Redeem Success</string>
+    <string name="title_cdk_redeem">CDK Redeem</string>
+    <string name="error_input_not_safe">Input is not safe</string>
+    <string name="cdk_success_message">CDK redeemed successfully</string>
+</resources>

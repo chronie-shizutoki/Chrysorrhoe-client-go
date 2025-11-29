@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 允许开发服务器的HTTP连接 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain>192.168.0.197</domain>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </domain-config>
+    
+    <domain-config>
+        <domain includeSubdomains="true">chronie-app.com</domain>
+        <!-- 在生产环境中，应该使用pin-set来固定证书 -->
+        <!-- 开发环境允许使用用户证书进行调试 -->
+        <trustkit-config enforcePinning="false" />
+    </domain-config>
+    
+    <!-- 默认配置 -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    
+    <!-- 开发环境配置 - 在生产环境中应该移除 -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 正常状态 -->
+    <item android:state_focused="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/border" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+    
+    <!-- 聚焦状态 -->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/colorPrimary" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+    
+    <!-- 移除错误状态定义，使用有效的android状态属性 -->
+</selector>
