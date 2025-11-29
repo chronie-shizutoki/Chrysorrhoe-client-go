@@ -7,55 +7,53 @@
     android:background="@color/background"
     tools:context=".ui.transaction.TransferActivity">
 
-    <!-- Responsive layout that adapts to different screen sizes and orientations -->
+    <!-- Landscape orientation responsive layout for wider screens -->
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primary"
-        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/transfer_title" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/transfer_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
-    </androidx.appcompat.widget.Toolbar>
-
+    <!-- In landscape mode, we use a narrower card centered on the screen -->
     <androidx.cardview.widget.CardView
         android:id="@+id/transfer_form_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginVertical="16dp"
-        android:minHeight="400dp"
+        android:minHeight="350dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintWidth_max="600dp">
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintWidth_max="500dp">
 
+        <!-- Form container with optimized padding for landscape -->
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="24dp">
-                
-                <!-- Responsive form fields with proper touch targets and input handling -->
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="24dp">
 
+            <!-- Form fields optimized for landscape orientation -->
+            
+            <!-- Recipient field -->
             <TextView
                 android:id="@+id/recipient_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/recipient_username"
+                android:text="@string/transfer_recipient_label"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,13 +71,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recipient_label" />
 
+            <!-- Amount field -->
             <TextView
                 android:id="@+id/amount_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/transfer_amount"
+                android:text="@string/transfer_amount_label"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recipient_input" />
 
@@ -97,13 +97,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amount_label" />
 
+            <!-- Memo field -->
             <TextView
                 android:id="@+id/memo_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/transfer_memo"
+                android:text="@string/transfer_memo_label"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amount_input" />
 
@@ -121,6 +123,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/memo_label" />
 
+            <!-- Error text -->
             <TextView
                 android:id="@+id/error_text"
                 android:layout_width="match_parent"
@@ -132,6 +135,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/memo_input" />
 
+            <!-- Progress indicator -->
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
@@ -143,6 +147,7 @@
                 app:layout_constraintStart_toStartOf="@+id/confirm_button"
                 app:layout_constraintTop_toTopOf="@+id/confirm_button" />
 
+            <!-- Confirm button with larger touch target -->
             <Button
                 android:id="@+id/confirm_button"
                 android:layout_width="match_parent"

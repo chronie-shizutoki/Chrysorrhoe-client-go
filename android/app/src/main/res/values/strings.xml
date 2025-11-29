@@ -98,6 +98,23 @@
     <string name="transaction_deposit">Deposit</string>
     <string name="transaction_withdrawal">Withdrawal</string>
     <string name="transaction_transfer_sent">Transfer to </string>
+    <string name="confirm_transfer_message">Confirm transfer of %1$s to %2$s?</string>
+    <string name="confirm">Confirm</string>
+    <string name="transfer_completed">Transfer Completed</string>
+    <string name="username_too_short">Username too short</string>
+    <string name="please_fix_errors">Please fix the errors</string>
+    <string name="confirm_transfer">Confirm Transfer</string>
+    
+    <!-- 转账表单验证错误 -->
+    <string name="recipient_required">Recipient is required</string>
+    <string name="amount_required">Amount is required</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="amount_must_be_positive">Amount must be greater than zero</string>
+    <string name="invalid_amount_format">Invalid amount format</string>
+    <string name="transfer">Transfer</string>
+    <string name="transfer_successful">Transfer Successful</string>
+    <string name="successfully_transferred">Successfully transferred %1$.2f to %2$s</string>
+    <string name="ok">OK</string>
     <string name="transaction_transfer_received">Transfer from </string>
     <string name="error_cdk_code_required">CDK code required</string>
     <string name="error_invalid_cdk_format">Invalid CDK format</string>
