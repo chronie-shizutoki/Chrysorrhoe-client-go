@@ -152,6 +152,7 @@
   border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
+  font-family: var(--font-family-base);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   min-width: 220px;

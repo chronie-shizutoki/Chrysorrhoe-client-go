@@ -151,5 +151,5 @@
 "rate": "1美元 = {{rate}}",
 "lastUpdated": "{{time}}"
 },
-"changeToNormalMode": "切换到普通模式"
+"changeToNormalMode": "普通模式"
 }
