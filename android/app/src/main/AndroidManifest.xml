@@ -60,6 +60,7 @@
             android:exported="false"
             android:launchMode="standard"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.ChrysorrhoeGO.NoActionBar"
             />
         
         <!-- CDK兑换活动 -->

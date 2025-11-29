@@ -1,29 +1,38 @@
 package com.chronie.chrysorrhoego.ui.transaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chronie.chrysorrhoego.R;
 import com.chronie.chrysorrhoego.model.Transaction;
+import com.chronie.chrysorrhoego.data.remote.ApiClient;
+import com.chronie.chrysorrhoego.data.remote.ApiService;
+import com.chronie.chrysorrhoego.data.remote.dto.TransactionHistoryResponse;
 import com.chronie.chrysorrhoego.util.ErrorHandler;
 import com.chronie.chrysorrhoego.ui.wallet.WalletDashboardActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class TransactionHistoryActivity extends AppCompatActivity {
     private static final String TAG = "TransactionHistoryActivity";
+    private static final int DEFAULT_PAGE_SIZE = 20;
     
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -32,6 +41,13 @@ public class TransactionHistoryActivity extends AppCompatActivity {
     private TransactionAdapter adapter;
     private List<Transaction> transactionList;
     private String username;
+    private ApiService apiService;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    
+    // 分页相关
+    private int currentPage = 1;
+    private boolean isLoading = false;
+    private boolean hasMoreTransactions = true;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,33 +59,56 @@ public class TransactionHistoryActivity extends AppCompatActivity {
             username = getIntent().getStringExtra("username");
         }
         
+        // 初始化API服务
+        apiService = ApiClient.getInstance(this).getApiService();
+        
         // 初始化视图
-        initViews();
+        initializeViews();
         
         // 设置监听器
         setupListeners();
         
-        // 初始化RecyclerView
-        initRecyclerView();
-        
-        // 加载交易历史
+        // 初始加载数据
         loadTransactionHistory();
+    }
+    
+    /**
+     * 获取当前用户的钱包ID
+     * 按照JavaScript版本的实现，这里需要根据用户名获取钱包信息
+     * 在实际应用中，可能需要从SharedPreferences或登录状态中获取
+     */
+    private String getCurrentWalletId() {
+        // 简化实现，实际应用中应该通过API根据用户名获取钱包ID
+        // 这里可以尝试从本地存储或Intent中获取，如果没有则使用默认值
+        SharedPreferences sharedPreferences = getSharedPreferences("chronie_app", MODE_PRIVATE);
+        return sharedPreferences.getString("wallet_id", "default_wallet");
     }
     
     /**
      * 初始化视图
      */
-    private void initViews() {
+    private void initializeViews() {
+        // 初始化所有UI组件
         recyclerView = findViewById(R.id.recycler_view);
         progressBar = findViewById(R.id.progress_bar);
         tvEmpty = findViewById(R.id.tv_empty);
-        toolbar = findViewById(R.id.toolbar);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         
-        // 设置工具栏
-        setSupportActionBar(toolbar);
+        // 初始化交易列表
+        transactionList = new ArrayList<>();
+        adapter = new TransactionAdapter(this, transactionList);
+        
+        // 配置RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        
+        // 确保只使用一种方式设置ActionBar
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.title_transaction_history);
+            getSupportActionBar().setTitle(getString(R.string.title_transaction_history));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
     
@@ -77,126 +116,211 @@ public class TransactionHistoryActivity extends AppCompatActivity {
      * 设置监听器
      */
     private void setupListeners() {
-        // 工具栏返回按钮
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        // 下拉刷新
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                // 重置分页状态
+                resetPagination();
+                // 加载第一页数据
+                loadTransactionHistory();
+            });
+        }
+        
+        // 上拉加载更多
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View v) {
-                onBackPressed();
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager != null) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                    
+                    // 当滑动到底部且没有正在加载且还有更多数据时加载更多
+                    if (!isLoading && hasMoreTransactions && 
+                            (visibleItemCount + firstVisibleItemPosition) >= totalItemCount && 
+                            firstVisibleItemPosition >= 0) {
+                        loadMoreTransactions();
+                    }
+                }
             }
         });
     }
     
     /**
-     * 初始化RecyclerView
+     * 重置分页状态
      */
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-        
-        transactionList = new ArrayList<>();
-        adapter = new TransactionAdapter(this, transactionList);
-        recyclerView.setAdapter(adapter);
+    private void resetPagination() {
+        currentPage = 1;
+        transactionList.clear();
+        hasMoreTransactions = true;
     }
     
     /**
      * 加载交易历史
      */
     private void loadTransactionHistory() {
+        if (isLoading) return;
+        
+        isLoading = true;
         showLoading(true);
         
-        // 模拟加载交易历史
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        // 获取当前钱包ID，这里简化处理，实际应用中可能从SharedPreferences或其他地方获取
+        String walletId = getCurrentWalletId();
+        
+        // 调用API获取交易历史，按照JavaScript版本的正确格式，需要传入walletId
+        Call<TransactionHistoryResponse> call = apiService.getTransactionHistory(walletId, currentPage, DEFAULT_PAGE_SIZE);
+        
+        call.enqueue(new Callback<TransactionHistoryResponse>() {
             @Override
-            public void run() {
-                try {
-                    // 生成模拟交易数据
-                    List<Transaction> transactions = generateMockTransactions();
-                    showTransactionHistory(transactions);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to load transaction history", e);
-                    showLoading(false);
-                    ErrorHandler.handleNetworkError(TransactionHistoryActivity.this, e);
+            public void onResponse(Call<TransactionHistoryResponse> call, Response<TransactionHistoryResponse> response) {
+                isLoading = false;
+                showLoading(false);
+                
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                
+                if (response.isSuccessful()) {
+                    TransactionHistoryResponse transactionResponse = response.body();
+                    
+                    if (transactionResponse != null) {
+                        if (transactionResponse.isSuccess()) {
+                            List<Transaction> transactions = transactionResponse.getTransactions();
+                            boolean isFirstPage = currentPage == 1;
+                            
+                            // 更新分页状态
+                            currentPage++;
+                            
+                            // 检查是否有更多数据
+                            // 优先使用API返回的totalPages信息来判断
+                            if (transactionResponse.getTotalPages() > 0 && transactionResponse.getCurrentPage() >= transactionResponse.getTotalPages()) {
+                                hasMoreTransactions = false;
+                            } else if (transactions == null || transactions.size() < DEFAULT_PAGE_SIZE) {
+                                hasMoreTransactions = false;
+                            }
+                            
+                            // 更新UI
+                            updateTransactionList(transactions, isFirstPage);
+                        } else {
+                            Log.e(TAG, "Failed to load transaction history: " + transactionResponse.getMessage());
+                            ErrorHandler.handleApiError(TransactionHistoryActivity.this, response.code(), transactionResponse.getMessage());
+                            // 只有在当前是第一页且没有数据时才显示空状态
+                            if (currentPage == 1) {
+                                showEmptyState();
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "Response body is null");
+                        ErrorHandler.handleApiError(TransactionHistoryActivity.this, response.code(), getString(R.string.error_unknown));
+                        if (currentPage == 1) {
+                            showEmptyState();
+                        }
+                    }
+                } else {
+                    // 根据HTTP状态码进行不同的错误处理
+                    int errorCode = response.code();
+                    String errorMessage = getErrorMessageForStatusCode(errorCode);
+                    Log.e(TAG, "API call failed with code: " + errorCode);
+                    
+                    // 400-499范围的错误通常是客户端错误，使用handleApiError
+                    if (errorCode >= 400 && errorCode < 500) {
+                        ErrorHandler.handleApiError(TransactionHistoryActivity.this, errorCode, errorMessage);
+                    } 
+                    // 500及以上是服务器错误
+                    else if (errorCode >= 500) {
+                        ErrorHandler.handleApiError(TransactionHistoryActivity.this, errorCode, errorMessage);
+                    }
+                    // 网络连接问题等
+                    else {
+                        ErrorHandler.handleNetworkError(TransactionHistoryActivity.this, new Exception(errorMessage));
+                    }
+                    
+                    if (currentPage == 1) {
+                        showEmptyState();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransactionHistoryResponse> call, Throwable t) {
+                isLoading = false;
+                showLoading(false);
+                
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                
+                Log.e(TAG, "Network error while loading transaction history", t);
+                Exception exception = t instanceof Exception ? (Exception) t : new Exception(t);
+                ErrorHandler.handleNetworkError(TransactionHistoryActivity.this, exception);
+                
+                // 只有在第一页加载失败时才显示空状态
+                if (currentPage == 1) {
                     showEmptyState();
                 }
             }
-        }, 1500);
+        });
     }
     
     /**
-     * 生成模拟交易数据
+     * 根据HTTP状态码获取适当的错误消息
      */
-    private List<Transaction> generateMockTransactions() {
-        List<Transaction> transactions = new ArrayList<>();
-        long currentTime = System.currentTimeMillis();
-        long dayInMillis = 24 * 60 * 60 * 1000;
+    private String getErrorMessageForStatusCode(int statusCode) {
+        switch (statusCode) {
+            case 401:
+                return "Unauthorized access";
+            case 403:
+                return "Access forbidden";
+            case 404:
+                return "Resource not found";
+            case 500:
+                return "Server error";
+            case 503:
+                return "Service unavailable";
+            default:
+                return "Unknown error";
+        }
+    }
+    
+    /**
+     * 加载更多交易记录
+     */
+    private void loadMoreTransactions() {
+        if (!hasMoreTransactions || isLoading) return;
         
-        // 添加模拟交易数据
-        transactions.add(new Transaction.Builder()
-                .id("txn_001")
-                .type(Transaction.Type.TRANSFER)
-                .amount(100.50)
-                .timestamp(currentTime - dayInMillis * 0)
-                .note("午餐费用")
-                .sender("user123", "我")
-                .recipient("user456", "张三")
-                .outgoing(true)
-                .status(Transaction.Status.COMPLETED)
-                .build());
+        // 直接加载交易历史，loadTransactionHistory方法已经包含了获取walletId的逻辑
+        loadTransactionHistory();
+    }
+    
+    /**
+     * 更新交易列表
+     */
+    private void updateTransactionList(List<Transaction> transactions, boolean isFirstPage) {
+        if (transactions == null || transactions.isEmpty()) {
+            showEmptyState();
+            return;
+        }
         
-        transactions.add(new Transaction.Builder()
-                .id("txn_002")
-                .type(Transaction.Type.TRANSFER)
-                .amount(500.00)
-                .timestamp(currentTime - dayInMillis * 1)
-                .note("项目报销")
-                .sender("user789", "李四")
-                .recipient("user123", "我")
-                .outgoing(false)
-                .status(Transaction.Status.COMPLETED)
-                .build());
+        // 不再调用不存在的setLoading方法
         
-        transactions.add(new Transaction.Builder()
-                .id("txn_003")
-                .type(Transaction.Type.CDK_REDEEM)
-                .amount(200.00)
-                .timestamp(currentTime - dayInMillis * 2)
-                .note("兑换奖励CDK")
-                .outgoing(false)
-                .status(Transaction.Status.COMPLETED)
-                .build());
+        if (isFirstPage) {
+            // 第一页，直接替换数据
+            transactionList.clear();
+            transactionList.addAll(transactions);
+            adapter.notifyDataSetChanged();
+        } else {
+            // 加载更多，添加到列表末尾
+            int previousSize = transactionList.size();
+            transactionList.addAll(transactions);
+            adapter.notifyItemRangeInserted(previousSize, transactions.size());
+        }
         
-        transactions.add(new Transaction.Builder()
-                .id("txn_004")
-                .type(Transaction.Type.TRANSFER)
-                .amount(150.75)
-                .timestamp(currentTime - dayInMillis * 3)
-                .sender("user123", "我")
-                .recipient("user101", "王五")
-                .outgoing(true)
-                .status(Transaction.Status.COMPLETED)
-                .build());
-        
-        transactions.add(new Transaction.Builder()
-                .id("txn_005")
-                .type(Transaction.Type.DEPOSIT)
-                .amount(1000.00)
-                .timestamp(currentTime - dayInMillis * 4)
-                .note("充值")
-                .outgoing(false)
-                .status(Transaction.Status.COMPLETED)
-                .build());
-        
-        transactions.add(new Transaction.Builder()
-                .id("txn_006")
-                .type(Transaction.Type.FEE)
-                .amount(5.00)
-                .timestamp(currentTime - dayInMillis * 5)
-                .note("交易手续费")
-                .outgoing(true)
-                .status(Transaction.Status.COMPLETED)
-                .build());
-        
-        return transactions;
+        // 更新UI状态
+        recyclerView.setVisibility(View.VISIBLE);
+        tvEmpty.setVisibility(View.GONE);
     }
     
     /**
@@ -229,7 +353,7 @@ public class TransactionHistoryActivity extends AppCompatActivity {
      * 显示/隐藏加载状态
      */
     private void showLoading(boolean isLoading) {
-        if (isLoading) {
+        if (isLoading && currentPage == 1) {
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             tvEmpty.setVisibility(View.GONE);
