@@ -67,6 +67,10 @@
     <!-- 交易历史相关 -->
     <string name="transaction_history_title">Transaction History</string>
     <string name="transaction_history_empty">No transaction records</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="view_all">View All</string>
+    <string name="no_transactions">No transactions available</string>
+    <string name="logout">Logout</string>
     <string name="transaction_type_transfer">Transfer</string>
     <string name="transaction_type_receive">Receive</string>
     <string name="transaction_type_cdk_redeem">CDK Redeem</string>
@@ -80,9 +84,27 @@
     <string name="error_server">Server error, please try again later</string>
     <string name="error_timeout">Request timeout, please try again</string>
     <string name="error_unknown">Unknown error, please contact customer service</string>
+    <!-- 网络错误相关 -->
+    <string name="error_network_io">Network IO error</string>
+    <string name="error_security">Security error</string>
+    <string name="error_network_title">Network Error</string>
+    <string name="error_network_unavailable">Network unavailable, please check your network connection</string>
+    <string name="error_network_unavailable_title">No Network Connection</string>
+    <string name="error_network_timeout">网络连接超时，请检查网络连接后重试</string>
+    <string name="button_retry">重试</string>
+    <string name="balance_status_excellent">状态良好</string>
+    <string name="balance_status_fair">状态一般</string>
+    <string name="balance_status_low">余额偏低</string>
 
     <!-- CDK兑换提示 -->
-    <string name="cdk_redeem_hints">Tips:\n1. CDK codes usually consist of letters and numbers\n2. Each CDK code can only be used once\n3. CDK codes have validity periods, please use them promptly\n4. If you have any questions, please contact customer service</string>
+    <string name="cdk_redeem_hints">Tips:
+1. CDK codes usually consist of letters and numbers
+2. Each CDK code can only be used once
+3. CDK codes have validity periods, please use them promptly
+4. If you have any questions, please contact customer service</string>
+    
+    <!-- 刷新相关 -->
+    <string name="button_refresh">刷新</string>
 
     <!-- 通用 -->
     <string name="close">Close</string>

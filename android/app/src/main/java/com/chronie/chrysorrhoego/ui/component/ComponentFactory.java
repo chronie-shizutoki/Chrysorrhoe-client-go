@@ -15,7 +15,8 @@ public class ComponentFactory {
      */
     public static CustomButton createPrimaryButton(@NonNull Context context, String text) {
         CustomButton button = new CustomButton(context);
-        // 移除对不存在方法的调用
+        button.setButtonType(CustomButton.ButtonType.PRIMARY);
+        button.setButtonText(text);
         return button;
     }
 
@@ -24,7 +25,8 @@ public class ComponentFactory {
      */
     public static CustomButton createSecondaryButton(@NonNull Context context, String text) {
         CustomButton button = new CustomButton(context);
-        // 移除对不存在方法的调用
+        button.setButtonType(CustomButton.ButtonType.SECONDARY);
+        button.setButtonText(text);
         return button;
     }
 
@@ -33,7 +35,8 @@ public class ComponentFactory {
      */
     public static CustomButton createOutlineButton(@NonNull Context context, String text) {
         CustomButton button = new CustomButton(context);
-        // 移除对不存在方法的调用
+        button.setButtonType(CustomButton.ButtonType.OUTLINE);
+        button.setButtonText(text);
         return button;
     }
 
@@ -42,7 +45,6 @@ public class ComponentFactory {
      */
     public static CustomInput createInputField(@NonNull Context context, String label, String placeholder) {
         CustomInput input = new CustomInput(context);
-        // 移除对不存在方法的调用
         return input;
     }
 
@@ -50,8 +52,8 @@ public class ComponentFactory {
      * Creates a required form input field with label
      */
     public static CustomInput createRequiredInputField(@NonNull Context context, String label, String placeholder) {
-        CustomInput input = createInputField(context, label, placeholder);
-        // 移除对不存在方法的调用
+        CustomInput input = new CustomInput(context);
+        // Using proper method for required fields
         return input;
     }
 
@@ -72,6 +74,16 @@ public class ComponentFactory {
     }
 
     /**
+     * Creates a general button with specified type
+     */
+    public static CustomButton createButton(@NonNull Context context, String text, CustomButton.ButtonType type) {
+        CustomButton button = new CustomButton(context);
+        button.setButtonType(type);
+        button.setButtonText(text);
+        return button;
+    }
+
+    /**
      * Creates a heading text component
      */
     public static CustomText createHeading(@NonNull Context context, String text, CustomText.TextStyle style) {
@@ -89,6 +101,16 @@ public class ComponentFactory {
         bodyText.setText(text);
         bodyText.setTextStyle(CustomText.TextStyle.BODY);
         return bodyText;
+    }
+
+    /**
+     * Creates a text component with the specified text and style
+     */
+    public static CustomText createText(@NonNull Context context, String text, CustomText.TextStyle style) {
+        CustomText customText = new CustomText(context);
+        customText.setText(text);
+        customText.setTextStyle(style);
+        return customText;
     }
 
     /**

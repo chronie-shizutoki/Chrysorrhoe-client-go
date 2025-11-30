@@ -3,11 +3,17 @@ package com.chronie.chrysorrhoego.ui.navigation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+import com.chronie.chrysorrhoego.ui.component.CustomButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,7 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.chronie.chrysorrhoego.R;
 import com.chronie.chrysorrhoego.ui.auth.AuthActivity;
 import com.chronie.chrysorrhoego.ui.component.BottomNavigationBar;
-import com.chronie.chrysorrhoego.ui.wallet.WalletDashboardActivity;
+import com.chronie.chrysorrhoego.ui.wallet.WalletDashboardFragment;
 import com.chronie.chrysorrhoego.ui.transaction.TransactionHistoryActivity;
 
 /**
@@ -93,37 +99,91 @@ public class NavigationActivity extends AppCompatActivity {
         
         mCurrentTabPosition = position;
         
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        // 清除内容容器中的现有视图
+        mContentContainer.removeAllViews();
         
-        // 隐藏所有Fragment
-        hideAllFragments(transaction);
-        
-        // 根据位置显示对应的Fragment或启动相应活动
+        // 根据位置加载对应的内容
         switch (position) {
             case TAB_WALLET:
-                // 由于WalletDashboardActivity比较复杂，这里暂时使用Intent跳转到该活动
-                startActivity(new Intent(this, WalletDashboardActivity.class));
+                // 加载钱包仪表板Fragment
+                loadFragment(new WalletDashboardFragment());
                 break;
             
             case TAB_TRANSACTION:
-                // 使用Intent跳转到交易历史活动
-                startActivity(new Intent(this, TransactionHistoryActivity.class));
+                // 直接加载交易历史布局到内容容器
+                LayoutInflater.from(this).inflate(R.layout.activity_transaction_history, mContentContainer, true);
+                // 初始化交易历史功能
+                initTransactionHistory();
                 break;
             
             case TAB_EXCHANGE:
-                // CDK兑换功能暂不可用
-                Toast.makeText(this, "CDK兑换功能暂不可用", Toast.LENGTH_SHORT).show();
-                // 返回到钱包页面
-                mCurrentTabPosition = TAB_WALLET;
-                // 移除对不存在方法的调用
+                // CDK兑换功能暂不可用，显示提示信息
+                TextView textView = new TextView(this);
+                textView.setText("CDK兑换功能暂不可用");
+                textView.setGravity(Gravity.CENTER);
+                textView.setTextSize(16);
+                textView.setTextColor(getResources().getColor(R.color.text_primary)); // 使用正确的颜色资源名称
+                mContentContainer.addView(textView, new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT
+                ));
                 break;
             
             default:
                 Log.e(TAG, "Invalid tab position: " + position);
                 break;
         }
+    }
+    
+    /**
+     * 初始化钱包仪表板功能
+     */
+    private void initWalletDashboard() {
+        // 初始化钱包仪表板的基本功能
+        // 这里简化处理，主要确保界面可见
+        Log.d(TAG, "Initializing wallet dashboard");
         
-        transaction.commitAllowingStateLoss();
+        // 设置登出按钮点击事件
+        CustomButton logoutButton = findViewById(R.id.logout_button);
+        if (logoutButton != null) {
+            logoutButton.setOnClickListener(v -> logout());
+        }
+    }
+    
+    /**
+     * 初始化交易历史功能
+     */
+    private void initTransactionHistory() {
+        // 初始化交易历史的基本功能
+        // 这里简化处理，主要确保界面可见
+        Log.d(TAG, "Initializing transaction history");
+        
+        // 设置工具栏
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(getString(R.string.tab_transaction)); // 使用已有的标签字符串资源
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false); // 不显示返回按钮，因为是在导航中
+            }
+        }
+        
+        // 显示空状态，因为我们没有实际的交易数据
+        TextView emptyView = findViewById(R.id.tv_empty);
+        if (emptyView != null) {
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        
+        // 隐藏RecyclerView和加载指示器
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        if (recyclerView != null) {
+            recyclerView.setVisibility(View.GONE);
+        }
+        
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
     
     /**
@@ -135,6 +195,17 @@ public class NavigationActivity extends AppCompatActivity {
                 transaction.hide(fragment);
             }
         }
+    }
+    
+    /**
+     * 加载Fragment到内容容器
+     */
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        // 使用content_container作为Fragment容器，并添加标签以便后续查找
+        String tag = getFragmentTag(mCurrentTabPosition);
+        transaction.replace(mContentContainer.getId(), fragment, tag);
+        transaction.commit();
     }
     
     /**

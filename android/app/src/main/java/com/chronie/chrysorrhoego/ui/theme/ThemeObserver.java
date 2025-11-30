@@ -5,7 +5,8 @@ package com.chronie.chrysorrhoego.ui.theme;
  */
 public interface ThemeObserver {
     /**
-     * 当主题发生变化时调用
+     * 当主题变化时调用
+     * @param isDarkMode 当前是否为暗黑模式
      */
-    void onThemeChanged();
+    void onThemeChanged(boolean isDarkMode);
 }

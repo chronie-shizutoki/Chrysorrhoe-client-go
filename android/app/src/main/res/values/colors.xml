@@ -7,6 +7,7 @@
     <color name="color_text_muted">#4A5568</color>
     <color name="color_text_subtle">#999999</color>
     <color name="color_text_secondary">#4A5568</color>
+    <color name="color_text_primary">#1A202C</color>
     <color name="color_border">#E2E8F0</color>
     <color name="color_primary">#3D7DFA</color>
     <color name="color_primary_700">#2E64D9</color>
@@ -17,6 +18,7 @@
     <color name="color_danger">#E53E3E</color>
     <color name="color_danger_700">#C82333</color>
     <color name="color_focus">#3D7DFA</color>
+    <color name="color_error">#E53E3E</color>
     
     <!-- 兼容旧引用的颜色资源 -->
     <color name="primary">#3D7DFA</color>

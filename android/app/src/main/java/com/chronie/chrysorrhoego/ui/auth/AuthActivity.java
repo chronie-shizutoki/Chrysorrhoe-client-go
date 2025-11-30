@@ -3,6 +3,7 @@ package com.chronie.chrysorrhoego.ui.auth;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -211,5 +212,18 @@ public class AuthActivity extends AppCompatActivity {
         if (executorService != null) {
             executorService.shutdown();
         }
+    }
+    
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // 当配置发生变化（如屏幕旋转、主题切换）时，更新视图以适应新配置
+        // 这将确保组件能够响应系统主题的变化
+        updateViewsForTheme();
+    }
+    
+    private void updateViewsForTheme() {
+        // 更新视图以适应当前主题
+        // 不需要在这里手动设置颜色，让系统自动处理
     }
 }

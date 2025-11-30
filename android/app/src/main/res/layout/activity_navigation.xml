@@ -7,15 +7,49 @@
     android:layout_height="match_parent"
     android:background="@color/color_background">
 
-    <!-- 内容容器 -->
+    <!-- 顶部区域包含标题和登出按钮 -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/app_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_text_primary" />
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/logout"
+            android:textSize="14sp"
+            android:textColor="@color/color_error"
+            android:background="@null"
+            android:paddingHorizontal="16dp" />
+    </LinearLayout>
+
+    <!-- 内容容器 - 用于加载Fragment -->
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/color_background"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
         tools:background="@color/color_background" />
 
     <!-- 自定义底部导航栏 -->

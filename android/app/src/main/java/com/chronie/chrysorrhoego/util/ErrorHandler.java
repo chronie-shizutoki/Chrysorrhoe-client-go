@@ -1,42 +1,256 @@
 package com.chronie.chrysorrhoego.util;
 
-import com.chronie.chrysorrhoego.ChrysorrhoeGoApplication;
-import android.content.Context;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.chronie.chrysorrhoego.ChrysorrhoeGoApplication;
 import com.chronie.chrysorrhoego.R;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 错误处理工具类，用于统一管理应用中的异常和错误情况
+ * 包含错误处理、重试机制、网络状态检查等功能
  */
 public class ErrorHandler {
     private static final String TAG = "ErrorHandler";
     private static final String ERROR_LOG_FILE = "error_log.txt";
     // 调试模式标志
     private static final boolean DEBUG = true;
+    // 重试相关常量
+    private static final int DEFAULT_MAX_RETRIES = 3;
+    private static final long DEFAULT_INITIAL_DELAY_MS = 1000;
+    private static final double BACKOFF_MULTIPLIER = 1.5;
+    // 单例实例
+    private static ErrorHandler sInstance;
 
+    /**
+     * 获取单例实例
+     */
+    public static synchronized ErrorHandler getInstance() {
+        if (sInstance == null) {
+            sInstance = new ErrorHandler();
+        }
+        return sInstance;
+    }
+    
+    /**
+     * 检查网络连接状态
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        }
+        return false;
+    }
+    
+    /**
+     * 判断异常是否应该重试
+     */
+    public static boolean shouldRetry(Exception e) {
+        if (e == null) {
+            return false;
+        }
+        
+        // 对于网络连接和超时错误，我们尝试重试
+        return e instanceof UnknownHostException || 
+               e instanceof SocketTimeoutException || 
+               (e instanceof IOException && !(e instanceof java.io.FileNotFoundException));
+    }
+    
+    /**
+     * 获取用户友好的错误消息
+     */
+    public static String getFriendlyErrorMessage(Context context, Exception e) {
+        if (e == null) {
+            return context.getString(R.string.error_unknown);
+        }
+        
+        // 根据异常类型返回不同的错误消息
+        if (e instanceof UnknownHostException || e instanceof SocketTimeoutException) {
+            return context.getString(R.string.error_network_connection);
+        } else if (e instanceof IOException) {
+            return context.getString(R.string.error_network_io);
+        } else if (e instanceof TimeoutException) {
+            return context.getString(R.string.error_network_timeout);
+        } else if (e instanceof SecurityException) {
+            return context.getString(R.string.error_security);
+        } else if (e instanceof ExecutionException) {
+            // 解包ExecutionException中的实际异常
+            return getFriendlyErrorMessage(context, (Exception) e.getCause());
+        } else {
+            // 记录未预期的异常
+            logError(TAG, "Unexpected error: " + e.getMessage(), e);
+            return context.getString(R.string.error_unknown);
+        }
+    }
+    
+    /**
+     * 获取错误类型
+     */
+    public static ErrorType getErrorType(Exception e) {
+        if (e == null) {
+            return ErrorType.UNKNOWN;
+        }
+        
+        if (e instanceof UnknownHostException) {
+            return ErrorType.NETWORK_UNAVAILABLE;
+        } else if (e instanceof SocketTimeoutException || e instanceof TimeoutException) {
+            return ErrorType.TIMEOUT;
+        } else if (e instanceof IOException) {
+            return ErrorType.NETWORK_ERROR;
+        } else if (e instanceof SecurityException) {
+            return ErrorType.SECURITY_ERROR;
+        } else {
+            return ErrorType.UNKNOWN;
+        }
+    }
+    
+    /**
+     * 错误类型枚举
+     */
+    public enum ErrorType {
+        NETWORK_UNAVAILABLE,  // 网络不可用
+        TIMEOUT,              // 请求超时
+        NETWORK_ERROR,        // 网络错误
+        SECURITY_ERROR,       // 安全错误
+        UNKNOWN               // 未知错误
+    }
+    
     /**
      * 处理网络错误
      * @param context 上下文
      * @param e 异常对象
      */
     public static void handleNetworkError(Context context, Exception e) {
-        String errorMessage = context.getString(R.string.error_network_connection);
-        logError(TAG, "Network error: " + e.getMessage(), e);
-        showToast(context, errorMessage);
+        // 检查网络状态
+        if (!isNetworkAvailable(context)) {
+            showErrorDialog(context, context.getString(R.string.error_network_unavailable_title),
+                    context.getString(R.string.error_network_unavailable));
+        } else {
+            String errorMessage = getFriendlyErrorMessage(context, e);
+            logError(TAG, "Network error: " + e.getMessage(), e);
+            showToast(context, errorMessage);
+        }
+    }
+    
+    /**
+     * 执行带重试机制的网络操作
+     * @param callable 要执行的网络操作
+     * @param <T> 返回类型
+     * @return 执行结果
+     * @throws Exception 执行异常
+     */
+    public static <T> T executeWithRetry(Callable<T> callable) throws Exception {
+        return executeWithRetry(callable, DEFAULT_MAX_RETRIES, DEFAULT_INITIAL_DELAY_MS);
+    }
+    
+    /**
+     * 执行带自定义重试参数的网络操作
+     * @param callable 要执行的网络操作
+     * @param maxRetries 最大重试次数
+     * @param initialDelayMs 初始延迟时间（毫秒）
+     * @param <T> 返回类型
+     * @return 执行结果
+     * @throws Exception 执行异常
+     */
+    public static <T> T executeWithRetry(Callable<T> callable, int maxRetries, long initialDelayMs) throws Exception {
+        Exception lastException = null;
+        
+        for (int attempt = 0; attempt <= maxRetries; attempt++) {
+            try {
+                // 执行操作
+                return callable.call();
+            } catch (Exception e) {
+                lastException = e;
+                
+                // 记录异常信息
+                Log.w(TAG, "Attempt " + (attempt + 1) + " failed: " + e.getMessage());
+                
+                // 检查是否应该重试
+                if (!shouldRetry(e) || attempt >= maxRetries) {
+                    // 达到最大重试次数或不应该重试，抛出最后一个异常
+                    throw e;
+                }
+                
+                // 计算退避时间（指数增长）
+                long delayMs = (long) (initialDelayMs * Math.pow(BACKOFF_MULTIPLIER, attempt));
+                Log.d(TAG, "Retrying after " + delayMs + "ms");
+                
+                // 等待后重试
+                try {
+                    Thread.sleep(delayMs);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new ExecutionException("Retry interrupted", ie);
+                }
+            }
+        }
+        
+        // 这个理论上不会执行到，因为如果达到最大重试次数会在循环中抛出异常
+        throw lastException != null ? lastException : new Exception("Unknown error");
+    }
+    
+    /**
+     * 带超时的网络操作执行
+     * @param callable 要执行的网络操作
+     * @param timeoutMs 超时时间（毫秒）
+     * @param <T> 返回类型
+     * @return 执行结果
+     * @throws Exception 执行异常
+     */
+    public static <T> T executeWithTimeout(Callable<T> callable, long timeoutMs) throws Exception {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<T> future = executor.submit(() -> executeWithRetry(callable));
+        
+        try {
+            return future.get(timeoutMs, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            future.cancel(true);
+            Log.e(TAG, "Operation timed out after " + timeoutMs + "ms");
+            throw new TimeoutException(ChrysorrhoeGoApplication.getAppContext().getString(R.string.error_timeout));
+        } finally {
+            executor.shutdown();
+        }
+    }
+    
+    /**
+     * 执行网络操作前检查网络连接
+     * @param context 上下文
+     * @param callable 要执行的网络操作
+     * @param <T> 返回类型
+     * @return 执行结果
+     * @throws Exception 执行异常
+     */
+    public static <T> T executeWithNetworkCheck(Context context, Callable<T> callable) throws Exception {
+        if (!isNetworkAvailable(context)) {
+            Log.e(TAG, "Network not available");
+            throw new IOException(context.getString(R.string.error_network));
+        }
+        return executeWithRetry(callable);
     }
 
     /**
@@ -128,6 +342,49 @@ public class ErrorHandler {
         if (DEBUG) {
             writeToLogFile(tag, message, e);
         }
+    }
+    
+    /**
+     * 处理带重试机制的网络错误
+     * @param context 上下文
+     * @param e 异常对象
+     * @param retryAction 重试操作回调
+     */
+    public static void handleNetworkErrorWithRetry(Context context, Exception e, Runnable retryAction) {
+        String errorMessage = getFriendlyErrorMessage(context, e);
+        logError(TAG, "Network error: " + e.getMessage(), e);
+        
+        // 如果错误可以重试，显示重试对话框
+        if (shouldRetry(e)) {
+            showRetryDialog(context, context.getString(R.string.error_network_title), 
+                    errorMessage, retryAction);
+        } else {
+            showToast(context, errorMessage);
+        }
+    }
+    
+    /**
+     * 显示重试对话框
+     * @param context 上下文
+     * @param title 标题
+     * @param message 消息内容
+     * @param retryAction 重试操作回调
+     */
+    public static void showRetryDialog(Context context, String title, String message, Runnable retryAction) {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(context.getString(R.string.button_retry), (dialog, which) -> {
+                    dialog.dismiss();
+                    if (retryAction != null) {
+                        retryAction.run();
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.button_cancel), (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setCancelable(false)
+                .show();
     }
 
     /**

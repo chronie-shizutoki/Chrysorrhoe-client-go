@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import com.chronie.chrysorrhoego.ui.theme.ThemeManager;
 
 /**
  * 应用程序主类，作为应用的入口点
@@ -27,6 +28,10 @@ public class ChrysorrhoeGoApplication extends Application {
         super.onCreate();
         instance = this;
         setupUncaughtExceptionHandler();
+        
+        // 初始化主题管理器
+        ThemeManager.getInstance().init(getApplicationContext());
+        
         Log.d(TAG, "Application initialized");
     }
 

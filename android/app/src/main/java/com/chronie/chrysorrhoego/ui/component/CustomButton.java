@@ -31,6 +31,7 @@ public class CustomButton extends BaseComponent {
     private TextPaint mTextPaint;
     private RectF mButtonRect;
     private boolean mIsPressed = false;
+    private AttributeSet mAttributeSet; // Save AttributeSet for later use
 
     public CustomButton(Context context) {
         super(context);
@@ -38,10 +39,12 @@ public class CustomButton extends BaseComponent {
 
     public CustomButton(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mAttributeSet = attrs;
     }
 
     public CustomButton(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mAttributeSet = attrs;
     }
 
     @Override
@@ -59,8 +62,21 @@ public class CustomButton extends BaseComponent {
                 mButtonType = ButtonType.PRIMARY;
         }
 
-        // Load button text
+        // First, try to get standard android:text attribute directly from saved AttributeSet
+        String androidText = null;
+        if (mAttributeSet != null) {
+            androidText = mAttributeSet.getAttributeValue("http://schemas.android.com/apk/res/android", "text");
+        }
+
+        // Then try to get custom buttonText attribute
         mButtonText = a.getString(R.styleable.CustomButton_buttonText);
+        
+        // Prefer custom attribute if both are set
+        if (mButtonText == null && androidText != null) {
+            mButtonText = androidText;
+        }
+        
+        // Default text if neither is set
         if (mButtonText == null) {
             mButtonText = "Button";
         }
@@ -88,22 +104,19 @@ public class CustomButton extends BaseComponent {
         mTextPaint.setTextSize(getResources().getDimension(R.dimen.font_size_base));
         mTextPaint.setTextAlign(Paint.Align.CENTER);
 
-        // Set button colors based on type
+        // Set button colors based on type - let the system automatically handle dark/light theme colors
         switch (mButtonType) {
             case PRIMARY:
-                mBackgroundColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                        R.color.color_primary : R.color.color_primary);
+                mBackgroundColor = ContextCompat.getColor(getContext(), R.color.color_primary);
                 mTextColor = ContextCompat.getColor(getContext(), R.color.color_white);
                 break;
             case SECONDARY:
-                mBackgroundColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                        R.color.color_secondary : R.color.color_secondary);
+                mBackgroundColor = ContextCompat.getColor(getContext(), R.color.color_secondary);
                 mTextColor = ContextCompat.getColor(getContext(), R.color.color_white);
                 break;
             case OUTLINE:
                 mBackgroundColor = ContextCompat.getColor(getContext(), android.R.color.transparent);
-                mTextColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                        R.color.color_primary : R.color.color_primary);
+                mTextColor = ContextCompat.getColor(getContext(), R.color.color_primary);
                 break;
         }
 

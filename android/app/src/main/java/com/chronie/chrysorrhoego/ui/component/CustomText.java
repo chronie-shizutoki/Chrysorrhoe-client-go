@@ -127,25 +127,18 @@ public class CustomText extends TextView implements ThemeObserver {
     }
 
     private void updateTextColor() {
-        // 根据主题和文本类型设置颜色
-        boolean isDarkMode = mThemeManager.isDarkMode();
-        
-        int colorResId;
-        
-        // 使用自定义颜色或默认颜色
-        if (mTextColorResId == R.color.color_text) {
-            // 默认文本颜色，使用基本颜色替代缺失的主题颜色
-            colorResId = isDarkMode ? android.R.color.white : android.R.color.black;
-        } else {
-            // 使用自定义指定的颜色资源
-            colorResId = mTextColorResId;
+        try {
+            // 使用指定的颜色资源ID，系统会根据当前主题自动选择正确的资源
+            setTextColor(ContextCompat.getColor(getContext(), mTextColorResId));
+        } catch (Exception e) {
+            // 当指定的颜色资源不存在时，使用安全的回退方案
+            boolean isDarkMode = mThemeManager.isDarkMode();
+            int fallbackColorResId = isDarkMode ? android.R.color.white : android.R.color.black;
+            setTextColor(ContextCompat.getColor(getContext(), fallbackColorResId));
         }
-        
-        setTextColor(ContextCompat.getColor(getContext(), colorResId));
     }
     
-    @Override
-    public void onThemeChanged() {
+    public void onThemeChanged(boolean isDarkMode) {
         // 当主题发生变化时，更新文本颜色
         updateTextColor();
     }

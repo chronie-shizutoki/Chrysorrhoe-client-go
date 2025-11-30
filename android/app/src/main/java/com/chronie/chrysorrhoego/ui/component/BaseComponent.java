@@ -42,11 +42,9 @@ public abstract class BaseComponent extends View {
                 android.content.res.Configuration.UI_MODE_NIGHT_MASK;
         mIsDarkMode = nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
-        // Default values
-        mBackgroundColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_surface : R.color.color_surface);
-        mTextColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_text : R.color.color_text);
+        // Default values - 系统会根据当前主题自动选择正确的资源
+        mBackgroundColor = ContextCompat.getColor(getContext(), R.color.color_surface);
+        mTextColor = ContextCompat.getColor(getContext(), R.color.color_text);
         mCornerRadius = getResources().getDimension(R.dimen.radius_md);
 
         // Load custom attributes if available
@@ -80,6 +78,11 @@ public abstract class BaseComponent extends View {
         mIsDarkMode = (getContext().getResources().getConfiguration().uiMode & 
                 android.content.res.Configuration.UI_MODE_NIGHT_MASK) == 
                 android.content.res.Configuration.UI_MODE_NIGHT_YES;
+        
+        // 重新获取颜色资源，系统会根据当前主题自动选择正确的值
+        mBackgroundColor = ContextCompat.getColor(getContext(), R.color.color_surface);
+        mTextColor = ContextCompat.getColor(getContext(), R.color.color_text);
+        
         applyStyling();
     }
 }

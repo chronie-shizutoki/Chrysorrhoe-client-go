@@ -55,12 +55,9 @@ public class CustomCard extends FrameLayout {
         mIsDarkMode = nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES;
 
         // Default values
-        mBackgroundColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_surface : R.color.color_surface);
-        mBorderColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_border : R.color.color_border);
-        mTextColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_text : R.color.color_text);
+        mBackgroundColor = ContextCompat.getColor(getContext(), R.color.color_surface);
+        mBorderColor = ContextCompat.getColor(getContext(), R.color.color_border);
+        mTextColor = ContextCompat.getColor(getContext(), R.color.color_text);
         mCornerRadius = getResources().getDimension(R.dimen.radius_lg);
 
         // Load custom attributes if available
@@ -193,13 +190,10 @@ public class CustomCard extends FrameLayout {
                 android.content.res.Configuration.UI_MODE_NIGHT_MASK) == 
                 android.content.res.Configuration.UI_MODE_NIGHT_YES;
         
-        // Update colors based on current theme
-        mBackgroundColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_surface : R.color.color_surface);
-        mBorderColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_border : R.color.color_border);
-        mTextColor = ContextCompat.getColor(getContext(), mIsDarkMode ? 
-                R.color.color_text : R.color.color_text);
+        // Update colors - 系统会根据当前主题自动选择正确的资源
+        mBackgroundColor = ContextCompat.getColor(getContext(), R.color.color_surface);
+        mBorderColor = ContextCompat.getColor(getContext(), R.color.color_border);
+        mTextColor = ContextCompat.getColor(getContext(), R.color.color_text);
         
         // Update title text color
         if (mTitleView != null) {

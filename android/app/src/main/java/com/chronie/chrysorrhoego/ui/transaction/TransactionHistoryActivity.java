@@ -2,6 +2,7 @@ package com.chronie.chrysorrhoego.ui.transaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -321,5 +322,29 @@ public class TransactionHistoryActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 当Activity恢复时，确保数据是最新的
+        // 可以在这里添加额外的逻辑，例如检查会话状态或刷新数据
+    }
+    
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // 当配置发生变化（如屏幕旋转、主题切换）时，更新视图以适应新配置
+        // 这将确保组件能够响应系统主题的变化
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+        // 刷新视图以确保颜色和样式正确更新
+        updateViewsForTheme();
+    }
+    
+    private void updateViewsForTheme() {
+        // 更新视图以适应当前主题
+        // 不需要在这里手动设置颜色，让系统自动处理
     }
 }
