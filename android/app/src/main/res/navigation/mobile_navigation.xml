@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_wallet_dashboard">
+
+    <fragment
+        android:id="@+id/nav_wallet_dashboard"
+        android:name="com.chronie.chrysorrhoego.ui.wallet.WalletDashboardFragment"
+        android:label="钱包"
+        tools:layout="@layout/fragment_wallet_dashboard" />
+
+    <fragment
+        android:id="@+id/nav_transaction_history"
+        android:name="com.chronie.chrysorrhoego.ui.transaction.TransactionHistoryFragment"
+        android:label="交易历史"
+        tools:layout="@layout/fragment_transaction_history" />
+
+    <fragment
+        android:id="@+id/nav_cdk_exchange"
+        android:name="com.chronie.chrysorrhoego.ui.cdk.CdkExchangeFragment"
+        android:label="CDK兑换"
+        tools:layout="@layout/fragment_cdk_exchange" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.chronie.chrysorrhoego.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
