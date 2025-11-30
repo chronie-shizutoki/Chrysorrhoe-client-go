@@ -1,31 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fillViewport="true"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/edit_text_cdk_code"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入CDK码"
-        android:layout_marginVertical="20dp" />
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
-    <Button
-        android:id="@+id/button_exchange_cdk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="兑换"
-        android:layout_marginVertical="10dp" />
+        <!-- 返回按钮 -->
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/text_exchange_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:gravity="center"
-        android:layout_marginTop="20dp" />
+        <!-- CDK输入区域 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CDK兑换"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginBottom="20dp" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/edit_text_cdk_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入CDK码"
+            android:layout_marginVertical="10dp"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:textColor="@color/colorTextPrimary" />
+
+        <!-- 按钮区域 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp">
+
+            <Button
+                android:id="@+id/button_exchange_cdk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="兑换"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:textSize="16sp" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- 结果和错误信息 -->
+        <TextView
+            android:id="@+id/text_exchange_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextPrimary" />
+
+        <TextView
+            android:id="@+id/text_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorError"
+            android:visibility="gone" />
+
+        <!-- 兑换历史记录 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="兑换历史"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextPrimary"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- 无历史记录提示 -->
+        <TextView
+            android:id="@+id/text_no_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="暂无兑换记录"
+            android:gravity="center"
+            android:textColor="@color/colorTextSecondary"
+            android:layout_marginTop="20dp" />
+
+        <!-- 历史记录列表 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_exchange_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

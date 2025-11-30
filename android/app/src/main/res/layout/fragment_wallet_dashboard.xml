@@ -6,16 +6,34 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_balance_amount"
+    <!-- 用户信息和余额显示区域 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="$0.00"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginVertical="20dp" />
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+        
+        <TextView
+            android:id="@+id/text_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Username: Guest"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+            
+        <TextView
+            android:id="@+id/text_balance_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="$0.00"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginVertical="10dp" />
+    </LinearLayout>
 
+    <!-- 主要操作按钮区域 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +61,130 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="交易历史"
+        android:layout_marginVertical="10dp" />
+
+    <!-- 辅助操作按钮区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginVertical="10dp">
+        
+        <Button
+            android:id="@+id/button_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="刷新"
+            android:layout_marginHorizontal="5dp" />
+            
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登出"
+            android:layout_marginHorizontal="5dp" />
+    </LinearLayout>
+
+    <!-- 转账表单区域 - 默认隐藏 -->
+    <LinearLayout
+        android:id="@+id/transfer_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="#f0f0f0"
+        android:padding="16dp"
+        android:layout_marginVertical="10dp"
+        android:elevation="2dp">
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="转账信息"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="收款人用户名:" />
+            <EditText
+                android:id="@+id/edit_text_recipient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入收款人用户名"
+                android:inputType="text" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="转账金额:" />
+            <EditText
+                android:id="@+id/edit_text_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入转账金额"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+            <Button
+                android:id="@+id/button_cancel_transfer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:layout_marginRight="10dp" />
+            <Button
+                android:id="@+id/button_submit_transfer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确认转账" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 消息显示区域 -->
+    <TextView
+        android:id="@+id/text_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#ff0000"
+        android:visibility="gone"
+        android:layout_marginVertical="10dp" />
+        
+    <TextView
+        android:id="@+id/text_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#008000"
+        android:visibility="gone"
+        android:layout_marginVertical="10dp" />
+        
+    <!-- 进度条 -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
         android:layout_marginVertical="10dp" />
 
 </LinearLayout>

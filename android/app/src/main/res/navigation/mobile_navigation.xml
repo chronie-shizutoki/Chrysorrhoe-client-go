@@ -9,19 +9,50 @@
         android:id="@+id/nav_wallet_dashboard"
         android:name="com.chronie.chrysorrhoego.ui.wallet.WalletDashboardFragment"
         android:label="钱包"
-        tools:layout="@layout/fragment_wallet_dashboard" />
+        tools:layout="@layout/fragment_wallet_dashboard">
+        
+        <!-- 从钱包仪表盘导航到CDK兑换页面 -->
+        <action
+            android:id="@+id/action_wallet_dashboard_to_cdk_exchange"
+            app:destination="@id/nav_cdk_exchange"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+            
+        <!-- 从钱包仪表盘导航到交易历史页面 -->
+        <action
+            android:id="@+id/action_wallet_dashboard_to_transaction_history"
+            app:destination="@id/nav_transaction_history"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_transaction_history"
         android:name="com.chronie.chrysorrhoego.ui.transaction.TransactionHistoryFragment"
         android:label="交易历史"
-        tools:layout="@layout/fragment_transaction_history" />
+        tools:layout="@layout/fragment_transaction_history">
+        
+        <!-- 从交易历史返回到钱包仪表盘 -->
+        <action
+            android:id="@+id/action_transaction_history_to_wallet_dashboard"
+            app:destination="@id/nav_wallet_dashboard"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_cdk_exchange"
         android:name="com.chronie.chrysorrhoego.ui.cdk.CdkExchangeFragment"
         android:label="CDK兑换"
-        tools:layout="@layout/fragment_cdk_exchange" />
+        tools:layout="@layout/fragment_cdk_exchange">
+        
+        <!-- 从CDK兑换返回到钱包仪表盘 -->
+        <action
+            android:id="@+id/action_cdk_exchange_to_wallet_dashboard"
+            app:destination="@id/nav_wallet_dashboard"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"

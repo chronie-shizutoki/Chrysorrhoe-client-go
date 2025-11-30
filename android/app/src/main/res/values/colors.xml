@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 系统默认颜色 -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +8,28 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- 应用主色调 -->
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorAccent">#FF4081</color>
+    
+    <!-- 背景颜色 -->
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorBackgroundLight">#FFFFFF</color>
+    
+    <!-- 文本颜色 -->
+    <color name="colorTextPrimary">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="textSecondary">#757575</color> <!-- 用于布局文件中直接引用 -->
+    
+    <!-- 交易相关颜色 -->
+    <color name="colorIncome">#4CAF50</color> <!-- 收入 - 绿色 -->
+    <color name="colorExpense">#F44336</color> <!-- 支出 - 红色 -->
+    
+    <!-- 状态相关颜色 -->
+    <color name="colorSuccess">#4CAF50</color> <!-- 成功 - 绿色 -->
+    <color name="colorWarning">#FFC107</color> <!-- 警告 - 黄色 -->
+    <color name="colorError">#F44336</color> <!-- 错误 - 红色 -->
+    <color name="colorInfo">#2196F3</color> <!-- 信息 - 蓝色 -->
 </resources>

@@ -3,9 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="@drawable/item_background">
+    android:padding="16dp"
+    android:background="@drawable/item_background"
+    android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="8dp">
 
+    <!-- 顶部行：交易类型和金额 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,21 +20,45 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SEND"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
         
         <TextView
             android:id="@+id/text_transaction_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-$50.00"
-            android:textStyle="bold" />
+            android:text="-50.00"
+            android:textStyle="bold"
+            android:textSize="16sp" />
     </LinearLayout>
 
+    <!-- 第二行：用户信息 -->
+    <TextView
+        android:id="@+id/text_transaction_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To: alice"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:visibility="gone" />
+
+    <!-- 第三行：交易描述 -->
+    <TextView
+        android:id="@+id/text_transaction_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="日常转账"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/textSecondary"
+        android:visibility="gone" />
+
+    <!-- 底部行：日期和状态 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="8dp">
         
         <TextView
             android:id="@+id/text_transaction_date"
@@ -39,7 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="2024-11-30 10:30"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textColor="@color/textSecondary" />
         
         <TextView
             android:id="@+id/text_transaction_status"
