@@ -2,9 +2,12 @@ package com.chronie.chrysorrhoego.ui.transaction
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,17 +24,24 @@ class TransactionViewModel : ViewModel() {
         val description: String? = null // 交易描述
     )
 
-    private val _transactions = MutableLiveData<List<Transaction>>(emptyList())
-    val transactions: LiveData<List<Transaction>> = _transactions
+    private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
+    val transactions: StateFlow<List<Transaction>> = _transactions
 
-    private val _filteredTransactions = MutableLiveData<List<Transaction>>(emptyList())
-    val filteredTransactions: LiveData<List<Transaction>> = _filteredTransactions
+    private val _filteredTransactions = MutableStateFlow<List<Transaction>>(emptyList())
+    val filteredTransactions: StateFlow<List<Transaction>> = _filteredTransactions
 
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
-    private val _error = MutableLiveData<String?>(null)
-    val error: LiveData<String?> = _error
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
+    
+    // 添加公共的errorMessage属性用于修改错误信息
+    var errorMessage: String?
+        get() = _error.value
+        set(value) {
+            _error.value = value
+        }
 
     private var currentFilterType: String = "ALL" // "ALL", "SEND", "RECEIVE"
     private var currentSearchQuery: String = ""
@@ -41,12 +51,13 @@ class TransactionViewModel : ViewModel() {
     }
 
     fun loadTransactions() {
-        _isLoading.value = true
-        _error.value = null
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
 
-        // 使用Handler在主线程中模拟异步操作
-        Handler(Looper.getMainLooper()).postDelayed({
             try {
+                // 模拟网络延迟
+                delay(1000)
                 // 生成更丰富的模拟交易数据
                 val mockTransactions = generateMockTransactions()
                 _transactions.value = mockTransactions
@@ -56,7 +67,7 @@ class TransactionViewModel : ViewModel() {
             } finally {
                 _isLoading.value = false
             }
-        }, 1000)
+        }
     }
 
     fun refreshTransactions() {

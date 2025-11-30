@@ -24,6 +24,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- 新添加的Activity -->
+        <activity
+            android:name=".presentation.wallet.WalletDashboardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ChrysorrhoeGo.NoActionBar" />
+        
+        <activity
+            android:name=".presentation.transaction.TransactionHistoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ChrysorrhoeGo.NoActionBar" />
+        
+        <activity
+            android:name=".presentation.cdk.CdkExchangeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ChrysorrhoeGo.NoActionBar" />
     </application>
 
 </manifest>

@@ -1,10 +1,10 @@
 package com.chronie.chrysorrhoego.ui.cdk
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -23,20 +23,27 @@ data class CdkExchangeRecord(
 class CdkViewModel : ViewModel() {
 
     // 兑换结果
-    private val _exchangeResult = MutableLiveData("")
-    val exchangeResult: LiveData<String> = _exchangeResult
+    private val _exchangeResult = MutableStateFlow("")
+    val exchangeResult: StateFlow<String> = _exchangeResult
 
     // 加载状态
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     // 兑换历史记录
-    private val _exchangeHistory = MutableLiveData<List<CdkExchangeRecord>>(emptyList())
-    val exchangeHistory: LiveData<List<CdkExchangeRecord>> = _exchangeHistory
+    private val _exchangeHistory = MutableStateFlow<List<CdkExchangeRecord>>(emptyList())
+    val exchangeHistory: StateFlow<List<CdkExchangeRecord>> = _exchangeHistory
 
     // 错误信息
-    private val _error = MutableLiveData<String?>(null)
-    val error: LiveData<String?> = _error
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
+    
+    // 外部可修改的错误消息属性
+    var errorMessage: String?
+        get() = _error.value
+        set(value) {
+            _error.value = value
+        }
 
     // 有效的CDK码模式（用于演示）
     private val validCdkPatterns = listOf(
@@ -54,7 +61,7 @@ class CdkViewModel : ViewModel() {
         // 验证输入
         val trimmedCode = cdkCode.trim()
         if (trimmedCode.isEmpty()) {
-            _error.value = "请输入CDK码"
+            errorMessage = "请输入CDK码"
             return
         }
 
@@ -71,15 +78,15 @@ class CdkViewModel : ViewModel() {
 
                 // 检查是否已兑换
                 if (redeemedCodes.contains(trimmedCode)) {
-                    _exchangeResult.postValue("该CDK已被兑换")
-                    _error.postValue("兑换失败：CDK已使用")
+                    _exchangeResult.value = "该CDK已被兑换"
+                    _error.value = "兑换失败：CDK已使用"
                     return@launch
                 }
 
                 // 验证CDK格式
                 if (!isValidCdkFormat(trimmedCode)) {
-                    _exchangeResult.postValue("CDK格式不正确")
-                    _error.postValue("兑换失败：无效的CDK格式")
+                    _exchangeResult.value = "CDK格式不正确"
+                    _error.value = "兑换失败：无效的CDK格式"
                     return@launch
                 }
 
@@ -93,26 +100,26 @@ class CdkViewModel : ViewModel() {
                         redeemedCodes.add(trimmedCode)
                         val record = createExchangeRecord(trimmedCode, "成功", reward, true)
                         addToHistory(record)
-                        _exchangeResult.postValue("兑换成功！获得$reward")
+                        _exchangeResult.value = "兑换成功！获得$reward"
                     } else {
                         // 随机失败
                         val record = createExchangeRecord(trimmedCode, "失败", "无", false)
                         addToHistory(record)
-                        _exchangeResult.postValue("兑换失败，请稍后重试")
-                        _error.postValue("网络错误，请稍后再试")
+                        _exchangeResult.value = "兑换失败，请稍后重试"
+                        _error.value = "网络错误，请稍后再试"
                     }
                 } else {
                     // CDK不存在或无效
                     val record = createExchangeRecord(trimmedCode, "失败", "无", false)
                     addToHistory(record)
-                    _exchangeResult.postValue("CDK无效或不存在")
-                    _error.postValue("兑换失败：CDK不存在")
+                    _exchangeResult.value = "CDK无效或不存在"
+                    _error.value = "兑换失败：CDK不存在"
                 }
             } catch (e: Exception) {
-                _exchangeResult.postValue("兑换过程中发生错误")
-                _error.postValue("错误：${e.message}")
+                _exchangeResult.value = "兑换过程中发生错误"
+                _error.value = "错误：${e.message}"
             } finally {
-                _isLoading.postValue(false)
+                _isLoading.value = false
             }
         }
     }
